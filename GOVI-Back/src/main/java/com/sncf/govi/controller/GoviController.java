@@ -14,7 +14,7 @@ import java.util.List;
 public class GoviController {
     @PostMapping(value="/generationGOVI", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public List<String> appelGenerationGOVI(@RequestBody String fichiers){
+    public List<String> appelGenerationGOVI(@RequestBody String[] fichiers){
         List<String> a = new ArrayList<>();
         a.add("GOVI.ppt");
         return a;

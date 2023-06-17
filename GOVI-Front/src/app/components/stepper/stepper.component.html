@@ -1,0 +1,54 @@
+<div class = "container">
+  <h1 class="center">Génération de GOVI</h1>
+
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <!-- Iterate through all steps of the stepper -->
+    <mat-step label="Etape 1" [stepControl]="step1FormGroup">
+      <form class="flex-container-form space-between wrap">
+        <mat-form-field [formGroup]="step1FormGroup">
+          <mat-label>Est-ce que tu aimes la confiture ?</mat-label>
+          <input required="true" [formControlName]="'formControl1'" matInput placeholder="Profond ?">
+          <mat-error *ngIf="step1FormGroup.get('formControl1')?.hasError('required')"></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Est-ce que tu aimes les tartines ?</mat-label>
+          <input matInput placeholder="jolies ?">
+        </mat-form-field>
+        <mat-form-field [formGroup]="step1FormGroup">
+          <input class="invisible" hidden matInput>
+          <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+          <input hidden #fileInput [formControlName]="'formControl3'" type="file" id="file">
+          <p>{{step1FormGroup.get('formControl3')?.value}}</p>
+        </mat-form-field>
+        <mat-form-field>
+          <input class="invisible" hidden matInput>
+          <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+          <input hidden #fileInput type="file" id="file2">
+        </mat-form-field>
+
+      </form>
+
+      <!-- Previous and next buttons to navigate through steps -->
+      <div class="flex-container space-between">
+        <div></div>
+        <button mat-raised-button matStepperNext color="primary">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step label="Etape 2">
+      <form>
+        <mat-form-field>
+          <mat-label>Est-ce que tu baises ?</mat-label>
+          <input matInput placeholder="Sale ?">
+        </mat-form-field>
+      </form>
+
+      <!-- Previous and next buttons to navigate through steps -->
+      <div class="flex-container space-between">
+        <button mat-raised-button matStepperPrevious>Previous</button>
+        <button mat-raised-button matStepperNext color="primary">Next</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+

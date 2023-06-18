@@ -13,12 +13,14 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from '@angular/material/core';
+import { GOVIDisplayerComponent } from './components/govidisplayer/govidisplayer.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StepperComponent,
+    GOVIDisplayerComponent,
   ],
   imports: [
     BrowserModule,

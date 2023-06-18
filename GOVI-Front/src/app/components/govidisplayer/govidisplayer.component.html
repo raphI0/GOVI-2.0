@@ -1,0 +1,40 @@
+<div class="goviContainer">
+  <div class="hoursContainer">
+    <div *ngFor="let h of iterateArray(26)">
+      <b class="hours" [style.left.px] = "300 + this.calculateHourPositionX(h, 0) - 18">{{getHour(h)}}h00</b>
+      <div *ngFor="let m of iterateArray(5)">
+        <p class="hours" [style.left.px] = "300 + this.calculateHourPositionX(h, (m+1)*10) - 8">{{(m+1)*10}}</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="flex-container vertical" *ngFor="let gare of gares">
+    <br>
+    <div class="flex-container">
+      <div class="nomGare flex-container space-between">
+        <p>{{gare.id}}</p>
+        <div class="flex-container vertical">
+          <div class="quai" *ngFor="let quai of gare.quais">
+            <p class="nomQuai">{{quai.id}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex-container vertical">
+        <div class="quai flex-container" *ngFor="let quai of gare.quais">
+          <div *ngFor="let retournement of quai.retournements">
+            <div class="retournement" [style.left.px]="this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))" [style.width.px]="dureeRetournement(retournement)">
+              <p class="mission rotated" *ngFor="let missionArrivee of retournement.missionsArrivee"
+                 [style.left.px]="this.calculatePositionX(missionArrivee.heureArrivee) - this.calculatePositionX(retournement.missionsArrivee[0].heureArrivee)" >
+                {{missionArrivee.codeMission}}
+              </p>
+              <p class="mission rotated" *ngFor="let missionDepart of retournement.missionsDepart"
+                 [style.left.px]="this.calculatePositionX(missionDepart.heureDepart) - this.calculatePositionX(retournement.missionsArrivee[0].heureArrivee)">
+                {{missionDepart.codeMission}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

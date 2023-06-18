@@ -1,5 +1,5 @@
 <div class="goviContainer">
-  <div class="hoursContainer">
+  <div class="hoursContainer" [style.width.px]="this.calculateHourPositionX(26, 30)">
     <div *ngFor="let h of iterateArray(26)">
       <b class="hours" [style.left.px] = "300 + this.calculateHourPositionX(h, 0) - 18">{{getHour(h)}}h00</b>
       <div *ngFor="let m of iterateArray(5)">
@@ -23,14 +23,29 @@
         <div class="quai flex-container" *ngFor="let quai of gare.quais">
           <div *ngFor="let retournement of quai.retournements">
             <div class="retournement" [style.left.px]="this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))" [style.width.px]="dureeRetournement(retournement)">
-              <p class="mission rotated" *ngFor="let missionArrivee of retournement.missionsArrivee"
-                 [style.left.px]="this.calculatePositionX(missionArrivee.heureArrivee) - this.calculatePositionX(retournement.missionsArrivee[0].heureArrivee)" >
-                {{missionArrivee.codeMission}}
-              </p>
-              <p class="mission rotated" *ngFor="let missionDepart of retournement.missionsDepart"
-                 [style.left.px]="this.calculatePositionX(missionDepart.heureDepart) - this.calculatePositionX(retournement.missionsArrivee[0].heureArrivee)">
-                {{missionDepart.codeMission}}
-              </p>
+              <div class="mission"
+                *ngFor="let missionArrivee of retournement.missionsArrivee"
+                [style.left.px]="this.calculatePositionX(missionArrivee.heureArrivee) - this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))">
+                <div class="rotated">
+                  <p class="texteADC" [style.color]="missionArrivee.conducteurTrain.couleur">{{getADCCode(missionArrivee.conducteurTrain)}}</p>
+                  <p class="texteCodeMission" [style.color]="missionArrivee.couleurEnum">{{missionArrivee.codeMission}}</p>
+                </div>
+                <div class="texteDessousMission">
+                  <p *ngFor="let conducteurEVLoc of missionArrivee.conducteursEVLoc" class="inline">{{conducteurEVLoc.codeADC}} </p>
+                </div>
+              </div>
+              <div class="mission"
+                   *ngFor="let missionDepart of retournement.missionsDepart"
+                   [style.left.px]="this.calculatePositionX(missionDepart.heureDepart) - this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))">
+                <div class="rotated">
+                  <p class="texteADC" [style.color]="missionDepart.conducteurTrain.couleur">{{getADCCode(missionDepart.conducteurTrain)}}</p>
+                  <p class="texteCodeMission" [style.color]="missionDepart.couleurEnum">{{missionDepart.codeMission}}</p>
+                </div>
+                <div class="texteDessousMission">
+                  <!-- On enlève pour l'instant pour les départs -->
+                  <!--<p *ngFor="let conducteurEVLoc of missionDepart.conducteursEVLoc" class="inline">{{conducteurEVLoc.codeADC}} </p> -->
+                </div>
+              </div>
             </div>
           </div>
         </div>

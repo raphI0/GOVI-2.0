@@ -1,24 +1,32 @@
+import { Conducteur } from './Conducteur';
+
 export class Mission {
   codeMission: string;
-  codeADC: string;
   gareDepart: string;
   gareArrivee: string;
   heureArrivee: Date;
   heureDepart: Date;
+  couleurEnum: string;
+  conducteurTrain: Conducteur;
+  conducteursEVLoc: Conducteur[];
 
   constructor(
     codeMission: string,
-    codeADC: string,
     gareDepart: string,
     gareArrivee: string,
     heureArrivee: Date,
-    heureDepart: Date
+    heureDepart: Date,
+    couleurEnum: string,
+    conducteurTrain: Conducteur,
+    conducteursEVLoc: Conducteur[]
   ) {
     this.codeMission = codeMission;
-    this.codeADC = codeADC;
     this.gareDepart = gareDepart;
     this.gareArrivee = gareArrivee;
     this.heureArrivee = heureArrivee;
     this.heureDepart = heureDepart;
+    this.couleurEnum = couleurEnum;
+    this.conducteurTrain = conducteurTrain;
+    this.conducteursEVLoc = conducteursEVLoc;
   }
 }

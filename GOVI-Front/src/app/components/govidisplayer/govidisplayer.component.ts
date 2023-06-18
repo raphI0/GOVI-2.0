@@ -3,6 +3,7 @@ import { Retournement } from '../../model/Retournement';
 import { Mission } from '../../model/Mission';
 import { Gare } from '../../model/Gare';
 import { Quai } from '../../model/Quai';
+import { Conducteur } from '../../model/Conducteur';
 
 @Component({
   selector: 'app-govidisplayer',
@@ -15,22 +16,27 @@ export class GOVIDisplayerComponent {
   dateGovi: Date = new Date();
 
   constructor() {
+    let conducteur = new Conducteur('10MP', 'CDG', true, false, '#f00020', []);
     this.retournements[0] = new Retournement('ZOBMYSTERE', [], []);
     let mission1 = new Mission(
       'SOSI40',
-      'M734',
-      'Mitry',
       'CDG',
+      'Mitry',
       new Date(),
-      new Date()
+      new Date(),
+      '#000000',
+      conducteur,
+      [conducteur, conducteur, conducteur, conducteur]
     );
     let mission2 = new Mission(
       'KFAR02',
-      'M734',
-      'Mitry',
       'CDG',
+      'Mitry',
       new Date(),
-      new Date()
+      new Date(),
+      '#000000',
+      new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
+      []
     );
     mission1.heureArrivee.setHours(2);
     mission1.heureArrivee.setMinutes(0);
@@ -100,7 +106,17 @@ export class GOVIDisplayerComponent {
     );
   }
 
+  getADCCode(conducteur: Conducteur) {
+    if (conducteur.isPS) {
+      return conducteur.codeADC + '+FS';
+    } else if (conducteur.isFS) {
+      return conducteur.codeADC + '+PS';
+    } else return conducteur.codeADC;
+  }
+
   iterateArray(length: number): number[] {
     return Array.from({ length }, (_, index) => index);
   }
+
+  protected readonly console = console;
 }

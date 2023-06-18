@@ -1,7 +1,6 @@
 
 .hoursContainer {
   position: sticky;
-  width: 5500px;
   top:0;
   z-index: 15;
   height: 50px; /* ajustez selon vos besoins */
@@ -65,6 +64,9 @@
 
 .mission{
   position: absolute;
+  margin-top: 10px;
+  text-align: start;
+  line-height: 0;
 }
 
 .rotated {
@@ -72,3 +74,19 @@
   transform: translate(-0%, 0%) rotate(-30deg); /* Applique la rotation de -90 degrés */
 }
 
+.texteCodeMission{
+  font-size: 9px;
+}
+.texteADC{
+  font-size: 7px;
+  margin-top: 13px;
+}
+
+.texteDessousMission{
+  font-size: 7px;
+  margin-top: 15px;
+  color: dodgerblue;
+}
+.inline{
+  display: inline;
+}

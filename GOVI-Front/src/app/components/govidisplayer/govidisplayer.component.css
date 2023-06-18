@@ -1,0 +1,74 @@
+
+.hoursContainer {
+  position: sticky;
+  width: 5500px;
+  top:0;
+  z-index: 15;
+  height: 50px; /* ajustez selon vos besoins */
+  background-color: aqua;
+}
+
+.goviContainer{
+  position: absolute;
+}
+
+.hours{
+  position: absolute;
+}
+
+.flex-container{
+  display: flex;
+}
+.space-between{
+  justify-content: space-between;
+}
+.vertical{
+  flex-direction: column;
+}
+
+.red{
+  background-color: red;
+}
+.sticky{
+  position: sticky;
+}
+.nomGare{
+  z-index: 10;
+  position: sticky;
+  width: 300px;
+  left:0;
+  background-color: DodgerBlue;
+}
+
+.quaisContainer{
+  background-color: magenta;
+}
+.quai{
+  position: relative;
+  height: 50px;
+}
+
+.nomQuai{
+  text-align: right;
+  padding-right: 10px;
+}
+
+.retournementContainer{
+  position: relative;
+}
+.retournement{
+  top: -9px;
+  height: 70%;
+  border-bottom: 2mm ridge rgba(211, 220, 50, .6);
+  position: absolute;
+}
+
+.mission{
+  position: absolute;
+}
+
+.rotated {
+  transform-origin: left center; /* Définit le centre de rotation à la partie gauche */
+  transform: translate(-0%, 0%) rotate(-30deg); /* Applique la rotation de -90 degrés */
+}
+

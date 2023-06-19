@@ -4,6 +4,7 @@ import { Mission } from '../../model/Mission';
 import { Gare } from '../../model/Gare';
 import { Quai } from '../../model/Quai';
 import { Conducteur } from '../../model/Conducteur';
+
 import { MissionSV } from '../../model/MissionSV';
 
 @Component({
@@ -49,6 +50,7 @@ export class GOVIDisplayerComponent {
       new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
       [conducteur, conducteur, conducteur, conducteur],
       'SOSI98'
+      []
     );
     mission1.heureArrivee.setHours(2);
     mission1.heureArrivee.setMinutes(0);
@@ -66,6 +68,10 @@ export class GOVIDisplayerComponent {
     this.retournements[0].missionsDepart[0] = mission3;
     //this.retournements[0].missionsDepart[1] = mission1;
     //this.retournements[0].missionsArrivee[1] = mission2;
+    this.retournements[0].missionsArrivee[0] = mission1;
+    //this.retournements[0].missionsDepart[0] = mission2;
+    //this.retournements[0].missionsDepart[1] = mission1;
+    this.retournements[0].missionsArrivee[1] = mission2;
 
     let quais = [];
     quais[0] = new Quai('VZ', this.retournements);

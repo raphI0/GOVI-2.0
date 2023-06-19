@@ -1,1 +1,18 @@
-urlAPIBack: https://sncf.com
+urlAPIBack: http://localhost:8080
+
+gares:
+  - nom: MITRY
+    alias: MY
+    quais:
+      - id : V5
+      - id : V3
+      - id: SAS5
+      - id : SAS3
+      - id: V1
+      - id: V2
+      - id: GA
+  - nom: CDG2
+    alias: valeur1
+    quais:
+      - id: Quai3
+      - id: Quai4

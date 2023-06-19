@@ -1,1 +1,51 @@
 urlAPIBack: http://localhost:8080
+
+gares:
+  - nom: MITRY
+    alias: MY
+    quais:
+      - id : V5
+      - id : V3
+      - id: SAS5
+      - id : SAS3
+      - id: V1
+      - id: V2
+      - id: GA
+  - nom: CDG2
+    alias: C2
+    quais:
+      - id: V11
+      - id: V12
+  - nom: L2-PEX
+    alias: L2
+    quais:
+      - id: T54
+      - id: T53
+      - id: T52
+      - id: T51
+      - id: VM
+  - nom: MASSY
+    alias: MA
+    quais:
+      - id: QA
+      - id: QB
+      - id: VZ
+      - id: PA
+  - nom: ORSAY
+    alias: OR
+    quais:
+      - id: Q1
+      - id: Q2
+      - id: QZ
+  - nom: StREMY
+    alias: SR
+    quais:
+      - id: Q1
+      - id: Q2
+      - id: Q3
+  - nom: ROB
+    alias: RO
+    quais:
+      - id: Q1
+      - id: Q2
+      - id: Q4

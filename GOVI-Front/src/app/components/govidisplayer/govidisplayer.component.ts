@@ -5,6 +5,8 @@ import { Gare } from '../../model/Gare';
 import { Quai } from '../../model/Quai';
 import { Conducteur } from '../../model/Conducteur';
 
+import { MissionSV } from '../../model/MissionSV';
+
 @Component({
   selector: 'app-govidisplayer',
   templateUrl: './govidisplayer.component.html',
@@ -38,6 +40,18 @@ export class GOVIDisplayerComponent {
       new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
       []
     );
+    let mission3 = new MissionSV(
+      'KFAR02',
+      'CDG',
+      'Mitry',
+      new Date(),
+      new Date(),
+      '#000000',
+      new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
+      [conducteur, conducteur, conducteur, conducteur],
+      'SOSI98'
+      []
+    );
     mission1.heureArrivee.setHours(2);
     mission1.heureArrivee.setMinutes(0);
     mission1.heureDepart.setHours(5);
@@ -46,6 +60,14 @@ export class GOVIDisplayerComponent {
     mission2.heureArrivee.setMinutes(5);
     mission2.heureDepart.setHours(4);
     mission2.heureDepart.setMinutes(0);
+    mission3.heureArrivee.setHours(3);
+    mission3.heureArrivee.setMinutes(5);
+    mission3.heureDepart.setHours(4);
+    mission3.heureDepart.setMinutes(0);
+    this.retournements[0].missionsArrivee[0] = mission3;
+    this.retournements[0].missionsDepart[0] = mission3;
+    //this.retournements[0].missionsDepart[1] = mission1;
+    //this.retournements[0].missionsArrivee[1] = mission2;
     this.retournements[0].missionsArrivee[0] = mission1;
     //this.retournements[0].missionsDepart[0] = mission2;
     //this.retournements[0].missionsDepart[1] = mission1;
@@ -92,6 +114,7 @@ export class GOVIDisplayerComponent {
   }
 
   getHeurePremiereMissionArrivee(retournement: Retournement) {
+    console.log(retournement.missionsDepart[0] instanceof MissionSV);
     if (retournement.missionsArrivee[0] != undefined) {
       return retournement.missionsArrivee[0].heureArrivee;
     }

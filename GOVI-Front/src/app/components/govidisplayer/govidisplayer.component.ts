@@ -47,9 +47,9 @@ export class GOVIDisplayerComponent {
     mission2.heureDepart.setHours(4);
     mission2.heureDepart.setMinutes(0);
     this.retournements[0].missionsArrivee[0] = mission1;
-    this.retournements[0].missionsDepart[0] = mission1;
+    //this.retournements[0].missionsDepart[0] = mission2;
+    //this.retournements[0].missionsDepart[1] = mission1;
     this.retournements[0].missionsArrivee[1] = mission2;
-    this.retournements[0].missionsDepart[1] = mission2;
 
     let quais = [];
     quais[0] = new Quai('VZ', this.retournements);
@@ -81,7 +81,7 @@ export class GOVIDisplayerComponent {
   }
 
   calculateHourPositionX(hour: number, minutes: number): number {
-    return (hour + minutes / 60) * 500;
+    return (hour + minutes / 60) * 200;
   }
   getHour(hour: number) {
     if (hour >= 24) {
@@ -92,15 +92,92 @@ export class GOVIDisplayerComponent {
   }
 
   getHeurePremiereMissionArrivee(retournement: Retournement) {
-    return retournement.missionsArrivee[0].heureArrivee;
+    if (retournement.missionsArrivee[0] != undefined) {
+      return retournement.missionsArrivee[0].heureArrivee;
+    }
+    // S'il n'y a pas de mission arrivee
+    else {
+      // On renvoit l'heure de la premiere mission de depart - 5 minutes si elle existe
+      if (retournement.missionsDepart[0]) {
+        return new Date(
+          retournement.missionsDepart[0].heureDepart.getTime() - 5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
+  }
+
+  getHeureDerniereMissionArrivee(retournement: Retournement) {
+    if (
+      retournement.missionsArrivee[retournement.missionsArrivee.length - 1] !=
+      undefined
+    ) {
+      return retournement.missionsArrivee[
+        retournement.missionsArrivee.length - 1
+      ].heureArrivee;
+    }
+    // S'il n'y a pas de mission arrivee
+    else {
+      // On renvoit l'heure de la premiere mission de depart - 5 minutes si elle existe
+      if (retournement.missionsDepart[0]) {
+        return new Date(
+          retournement.missionsDepart[0].heureDepart.getTime() - 5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
   }
   getHeurePremiereMissionDepart(retournement: Retournement) {
-    return retournement.missionsDepart[0].heureDepart;
+    if (retournement.missionsDepart[0] != undefined) {
+      return retournement.missionsDepart[0].heureDepart;
+    }
+    // S'il n'y a pas de mission depart
+    else {
+      // On renvoit l'heure de la premiere mission d'arrivee + 5 minutes
+      if (retournement.missionsArrivee[0]) {
+        return new Date(
+          retournement.missionsArrivee[0].heureArrivee.getTime() + 5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
+  }
+  getHeureDerniereMissionDepart(retournement: Retournement) {
+    if (
+      retournement.missionsDepart[retournement.missionsDepart.length - 1] !=
+      undefined
+    ) {
+      console.log(
+        retournement.missionsDepart[retournement.missionsDepart.length - 1]
+          .heureDepart
+      );
+      return retournement.missionsDepart[retournement.missionsDepart.length - 1]
+        .heureDepart;
+    }
+    // S'il n'y a pas de mission depart
+    else {
+      // On renvoit l'heure de la premiere mission d'arrivee + 5 minutes
+      if (retournement.missionsArrivee[0]) {
+        return new Date(
+          this.getHeureDerniereMissionArrivee(retournement).getTime() +
+            5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
   }
   dureeRetournement(retournement: Retournement) {
     return (
       this.calculatePositionX(
-        this.getHeurePremiereMissionDepart(retournement)
+        this.getHeureDerniereMissionDepart(retournement)
       ) -
       this.calculatePositionX(this.getHeurePremiereMissionArrivee(retournement))
     );

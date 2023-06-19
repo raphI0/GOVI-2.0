@@ -1,5 +1,5 @@
 <div class="goviContainer">
-  <div class="hoursContainer" [style.width.px]="this.calculateHourPositionX(26, 30)">
+  <div class="hoursContainer" [style.width.px]="this.calculateHourPositionX(26, 0)+300">
     <div *ngFor="let h of iterateArray(26)">
       <b class="hours" [style.left.px] = "300 + this.calculateHourPositionX(h, 0) - 18">{{getHour(h)}}h00</b>
       <div *ngFor="let m of iterateArray(5)">
@@ -31,7 +31,7 @@
                   <p class="texteCodeMission" [style.color]="missionArrivee.couleurEnum">{{missionArrivee.codeMission}}</p>
                 </div>
                 <div class="texteDessousMission">
-                  <p *ngFor="let conducteurEVLoc of missionArrivee.conducteursEVLoc" class="inline">{{conducteurEVLoc.codeADC}} </p>
+                  <p class="inline" *ngFor="let conducteurEVLoc of missionArrivee.conducteursEVLoc">{{conducteurEVLoc.codeADC}} </p>
                 </div>
               </div>
               <div class="mission"

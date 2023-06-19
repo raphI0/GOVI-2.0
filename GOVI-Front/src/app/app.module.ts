@@ -14,6 +14,7 @@ import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from '@angular/material/core';
 import { GOVIDisplayerComponent } from './components/govidisplayer/govidisplayer.component';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { GOVIDisplayerComponent } from './components/govidisplayer/govidisplayer
     ReactiveFormsModule,
     FormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

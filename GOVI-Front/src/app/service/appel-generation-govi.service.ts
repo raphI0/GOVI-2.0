@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { DemandeGOVI } from '../model/demandeGOVI';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppelGenerationGoviService {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) {
-  }
-
-  appelGenerationGovi(){
-    let list = new Array<string>;
-    list[0] = "fichier 1"
-    list[1] = "fichier 2"
-    return this.httpClient.post<string[]>("http://localhost:8080/generationGOVI", list)
+  appelGenerationGovi(demandeGOVI: DemandeGOVI) {
+    return this.httpClient.post<string[]>(
+      'http://localhost:8080/generationGOVI',
+      demandeGOVI
+    );
   }
 }

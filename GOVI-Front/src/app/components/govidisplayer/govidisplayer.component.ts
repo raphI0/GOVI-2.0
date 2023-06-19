@@ -3,6 +3,8 @@ import { Retournement } from '../../model/Retournement';
 import { Mission } from '../../model/Mission';
 import { Gare } from '../../model/Gare';
 import { Quai } from '../../model/Quai';
+import { Conducteur } from '../../model/Conducteur';
+import { MissionSV } from '../../model/MissionSV';
 
 @Component({
   selector: 'app-govidisplayer',
@@ -15,22 +17,38 @@ export class GOVIDisplayerComponent {
   dateGovi: Date = new Date();
 
   constructor() {
+    let conducteur = new Conducteur('10MP', 'CDG', true, false, '#f00020', []);
     this.retournements[0] = new Retournement('ZOBMYSTERE', [], []);
     let mission1 = new Mission(
       'SOSI40',
-      'M734',
-      'Mitry',
       'CDG',
+      'Mitry',
       new Date(),
-      new Date()
+      new Date(),
+      '#000000',
+      conducteur,
+      [conducteur, conducteur, conducteur, conducteur]
     );
     let mission2 = new Mission(
       'KFAR02',
-      'M734',
-      'Mitry',
       'CDG',
+      'Mitry',
       new Date(),
-      new Date()
+      new Date(),
+      '#000000',
+      new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
+      []
+    );
+    let mission3 = new MissionSV(
+      'KFAR02',
+      'CDG',
+      'Mitry',
+      new Date(),
+      new Date(),
+      '#000000',
+      new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
+      [conducteur, conducteur, conducteur, conducteur],
+      'SOSI98'
     );
     mission1.heureArrivee.setHours(2);
     mission1.heureArrivee.setMinutes(0);
@@ -40,10 +58,14 @@ export class GOVIDisplayerComponent {
     mission2.heureArrivee.setMinutes(5);
     mission2.heureDepart.setHours(4);
     mission2.heureDepart.setMinutes(0);
-    this.retournements[0].missionsArrivee[0] = mission1;
-    this.retournements[0].missionsDepart[0] = mission1;
-    this.retournements[0].missionsArrivee[1] = mission2;
-    this.retournements[0].missionsDepart[1] = mission2;
+    mission3.heureArrivee.setHours(3);
+    mission3.heureArrivee.setMinutes(5);
+    mission3.heureDepart.setHours(4);
+    mission3.heureDepart.setMinutes(0);
+    this.retournements[0].missionsArrivee[0] = mission3;
+    this.retournements[0].missionsDepart[0] = mission3;
+    //this.retournements[0].missionsDepart[1] = mission1;
+    //this.retournements[0].missionsArrivee[1] = mission2;
 
     let quais = [];
     quais[0] = new Quai('VZ', this.retournements);
@@ -75,7 +97,7 @@ export class GOVIDisplayerComponent {
   }
 
   calculateHourPositionX(hour: number, minutes: number): number {
-    return (hour + minutes / 60) * 500;
+    return (hour + minutes / 60) * 200;
   }
   getHour(hour: number) {
     if (hour >= 24) {
@@ -86,21 +108,109 @@ export class GOVIDisplayerComponent {
   }
 
   getHeurePremiereMissionArrivee(retournement: Retournement) {
-    return retournement.missionsArrivee[0].heureArrivee;
+    console.log(retournement.missionsDepart[0] instanceof MissionSV);
+    if (retournement.missionsArrivee[0] != undefined) {
+      return retournement.missionsArrivee[0].heureArrivee;
+    }
+    // S'il n'y a pas de mission arrivee
+    else {
+      // On renvoit l'heure de la premiere mission de depart - 5 minutes si elle existe
+      if (retournement.missionsDepart[0]) {
+        return new Date(
+          retournement.missionsDepart[0].heureDepart.getTime() - 5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
+  }
+
+  getHeureDerniereMissionArrivee(retournement: Retournement) {
+    if (
+      retournement.missionsArrivee[retournement.missionsArrivee.length - 1] !=
+      undefined
+    ) {
+      return retournement.missionsArrivee[
+        retournement.missionsArrivee.length - 1
+      ].heureArrivee;
+    }
+    // S'il n'y a pas de mission arrivee
+    else {
+      // On renvoit l'heure de la premiere mission de depart - 5 minutes si elle existe
+      if (retournement.missionsDepart[0]) {
+        return new Date(
+          retournement.missionsDepart[0].heureDepart.getTime() - 5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
   }
   getHeurePremiereMissionDepart(retournement: Retournement) {
-    return retournement.missionsDepart[0].heureDepart;
+    if (retournement.missionsDepart[0] != undefined) {
+      return retournement.missionsDepart[0].heureDepart;
+    }
+    // S'il n'y a pas de mission depart
+    else {
+      // On renvoit l'heure de la premiere mission d'arrivee + 5 minutes
+      if (retournement.missionsArrivee[0]) {
+        return new Date(
+          retournement.missionsArrivee[0].heureArrivee.getTime() + 5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
+  }
+  getHeureDerniereMissionDepart(retournement: Retournement) {
+    if (
+      retournement.missionsDepart[retournement.missionsDepart.length - 1] !=
+      undefined
+    ) {
+      console.log(
+        retournement.missionsDepart[retournement.missionsDepart.length - 1]
+          .heureDepart
+      );
+      return retournement.missionsDepart[retournement.missionsDepart.length - 1]
+        .heureDepart;
+    }
+    // S'il n'y a pas de mission depart
+    else {
+      // On renvoit l'heure de la premiere mission d'arrivee + 5 minutes
+      if (retournement.missionsArrivee[0]) {
+        return new Date(
+          this.getHeureDerniereMissionArrivee(retournement).getTime() +
+            5 * 60000
+        );
+      } else {
+        // Sinon erreur on renvoit une date vide
+        return new Date();
+      }
+    }
   }
   dureeRetournement(retournement: Retournement) {
     return (
       this.calculatePositionX(
-        this.getHeurePremiereMissionDepart(retournement)
+        this.getHeureDerniereMissionDepart(retournement)
       ) -
       this.calculatePositionX(this.getHeurePremiereMissionArrivee(retournement))
     );
   }
 
+  getADCCode(conducteur: Conducteur) {
+    if (conducteur.isPS) {
+      return conducteur.codeADC + '+FS';
+    } else if (conducteur.isFS) {
+      return conducteur.codeADC + '+PS';
+    } else return conducteur.codeADC;
+  }
+
   iterateArray(length: number): number[] {
     return Array.from({ length }, (_, index) => index);
   }
+
+  protected readonly console = console;
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DemandeGOVI } from '../../model/demandeGOVI';
 import { TypeFichierEnum } from '../../model/TypeFichierEnum';
+import { AppelGenerationGoviService } from '../../service/appel-generation-govi.service';
 
 @Component({
   selector: 'app-stepper',
@@ -10,7 +11,7 @@ import { TypeFichierEnum } from '../../model/TypeFichierEnum';
 })
 export class StepperComponent {
   demandeGOVI: DemandeGOVI = new DemandeGOVI();
-  isLoading: boolean;
+  isLoading = false;
 
   dateRegex = '^(0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/([0-9]{2})$\n';
 
@@ -23,7 +24,7 @@ export class StepperComponent {
     DateFormControl: new FormControl(new Date(''), Validators.required),
   });
 
-  constructor() {}
+  constructor(private appelGenerationGoviService: AppelGenerationGoviService) {}
   submit() {
     let BHLJ1 = this.step1FormGroup.get('BHL1FormControl')?.value;
     let BHLJ2 = this.step1FormGroup.get('BHL2FormControl')?.value;
@@ -52,12 +53,11 @@ export class StepperComponent {
     this.appelAPI();
   }
   public appelAPI() {
+    this.isLoading = true;
     this.appelGenerationGoviService
       .appelGenerationGovi(this.demandeGOVI)
       .subscribe((data) => {
-        let result = data as string[];
-        console.log(result);
-        this.resultatAppel = result[0];
+        this.isLoading = false;
       });
   }
 }

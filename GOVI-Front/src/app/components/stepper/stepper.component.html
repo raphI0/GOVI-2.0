@@ -1,4 +1,8 @@
-<button mat-raised-button (click)="submit()" color="primary">Next</button>
+<div *ngIf="isLoading">
+  <h1> PREPAREZ VOUS LES PUTES ARRIVENT</h1>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<button mat-raised-button (click)="submit()" color="primary">Submit</button>
 <div class = "container">
   <h1 class="center">Génération de GOVI</h1>
 

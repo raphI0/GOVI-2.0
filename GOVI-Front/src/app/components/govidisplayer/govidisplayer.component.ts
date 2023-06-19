@@ -50,7 +50,6 @@ export class GOVIDisplayerComponent {
       new Conducteur('12SZ', 'CDG', false, true, '#f00020', []),
       [conducteur, conducteur, conducteur, conducteur],
       'SOSI98'
-      []
     );
     mission1.heureArrivee.setHours(2);
     mission1.heureArrivee.setMinutes(0);

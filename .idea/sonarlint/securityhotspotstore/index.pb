@@ -9,3 +9,11 @@ G
 GOVI-Front/package.json,5\0\505ad47d4b89bac8532e8e0274d4dfb11f8a713d
 t
 DGOVI-Back/src/main/java/com/sncf/govi/service/model/CouleurEnum.java,5\b\5bab1a56923ba425a380bb4292141c7b1e362dd4
+m
+=GOVI-Back/src/main/java/com/sncf/govi/service/model/Gare.java,9\0\9051c58ff430973ebbfb276c5d3e60d2a69f8fb0
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+A
+GOVI-Back/pom.xml,0\0\0023bca5a5922e959f431577a2f05d07209dda24

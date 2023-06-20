@@ -1,19 +1,14 @@
 package com.sncf.govi.controller.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class DemandeGOVI {
-    private List<String> idGares;
-    private Date date;
+public class FichierGOVI {
+    private TypeFichierEnum typeFichier;
+    private MultipartFile multipartFile;
 }

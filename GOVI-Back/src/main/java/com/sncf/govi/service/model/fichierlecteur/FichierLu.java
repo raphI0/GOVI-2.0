@@ -11,6 +11,6 @@ public class FichierLu {
     Workbook bhlj1;
     Workbook bhlj2;
     Workbook ratp;
-    CSVParser pacific1;
-    CSVParser pacific2;
+    Workbook pacific1;
+    Workbook pacific2;
 }

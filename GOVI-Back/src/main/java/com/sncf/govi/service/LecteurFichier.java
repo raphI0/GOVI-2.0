@@ -22,8 +22,11 @@ public class LecteurFichier {
     public void reader(MultipartFile fichier, TypeFichierEnum typeFichier, FichierLu fichierLu) {
 
         switch (typeFichier){
-            case BHLJ1, RATP, BHLJ2 -> fichierLu.setBhlj1(xlsreader(fichier));
-            case PACIFICJ1, PACIFICJ2 -> fichierLu.setPacific1(csvToExcel(fichier));
+            case BHLJ1 -> fichierLu.setBhlj1(xlsreader(fichier));
+            case BHLJ2 -> fichierLu.setBhlj2(xlsreader(fichier));
+            case RATP -> fichierLu.setRatp(xlsreader(fichier));
+            case PACIFICJ1 -> fichierLu.setPacific1(csvToExcel(fichier));
+            case PACIFICJ2 -> fichierLu.setPacific2(csvToExcel(fichier));
         }
     }
 

@@ -4,56 +4,36 @@ import com.sncf.govi.controller.model.TypeFichierEnum;
 import com.sncf.govi.service.model.fichierlecteur.FichierLu;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class LecteurFichier {
-    public FichierLu reader(HashMap<String, String> fichiers) {
+    public void reader(MultipartFile fichier, TypeFichierEnum typeFichier, FichierLu fichierLu) {
 
-        FichierLu fichierLu = FichierLu.builder().build();
-
-        for (HashMap.Entry<String, String> fichier : fichiers.entrySet()) {
-
-            String fichierXLS = "C:\\Users\\darck\\Desktop\\GOVI\\Data pour analyse\\Fonctionnelles\\Données sources\\07-01-23\\données_gov_07012023.xls";
-
-            if(fichier.getKey().equals(TypeFichierEnum.BHLJ1.name())){
-
-                fichierLu.setBhlj1(xlsreader(fichierXLS));
-            }
-            else if(fichier.getKey().equals(TypeFichierEnum.BHLJ2.name())){
-
-                fichierLu.setBhlj2(xlsreader(fichierXLS));
-            }
-            else if(fichier.getKey().equals(TypeFichierEnum.RATP.name())){
-
-                fichierLu.setRatp(xlsreader(fichierXLS));
-            }
-            else if(fichier.getKey().equals(TypeFichierEnum.PACIFICJ1.name())){
-
-                fichierLu.setPacific1(csvreader(fichier.getValue()));
-            }
-            else if(fichier.getKey().equals(TypeFichierEnum.PACIFICJ2.name())){
-
-                fichierLu.setPacific2(csvreader(fichier.getValue()));
-            }
-
-            }
-        return(fichierLu);
+        switch (typeFichier){
+            case BHLJ1, RATP, BHLJ2 -> fichierLu.setBhlj1(xlsreader(fichier));
+            case PACIFICJ1, PACIFICJ2 -> fichierLu.setPacific1(csvToExcel(fichier));
         }
+    }
 
-    public Workbook xlsreader(String fichier) {
+    public Workbook xlsreader(MultipartFile fichier) {
 
-        FileInputStream fileexcel = null;
+        InputStream fileexcel = null;
         try {
-            fileexcel = new FileInputStream(new File(fichier));
+            fileexcel = fichier.getInputStream();
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         Workbook excel;
@@ -66,23 +46,27 @@ public class LecteurFichier {
 
         return(excel);
     }
+    public Workbook csvToExcel(MultipartFile fichier) {
+        try (Reader filecsv = new BufferedReader(new InputStreamReader(fichier.getInputStream()));
+             CSVParser csv = new CSVParser(filecsv, CSVFormat.DEFAULT.builder().setDelimiter(';').build())) {
 
-    public CSVParser csvreader(String fichier){
+            Workbook workbook = new XSSFWorkbook(); // Crée un nouveau workbook
 
-        Reader filecsv = null;
-        try {
-            filecsv = new FileReader(fichier);
-        } catch (FileNotFoundException e) {
-            
-        }
-        CSVParser csv = null;
-        try {
-            csv = new CSVParser(filecsv, CSVFormat.DEFAULT);
+            Sheet sheet = workbook.createSheet("Sheet 1"); // Crée une nouvelle feuille
+
+            int rowIndex = 0;
+            for (CSVRecord record : csv) {
+                Row row = sheet.createRow(rowIndex++); // Crée une nouvelle ligne
+                int columnIndex = 0;
+                for (String value : record) {
+                    Cell cell = row.createCell(columnIndex++); // Crée une nouvelle cellule
+                    cell.setCellValue(value); // Définit la valeur de la cellule
+                }
+            }
+
+            return workbook;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur lors de la conversion du CSV en Excel", e);
         }
-        
-        return (csv);
-
     }
 }

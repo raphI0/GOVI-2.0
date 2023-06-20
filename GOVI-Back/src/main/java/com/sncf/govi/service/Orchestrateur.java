@@ -35,12 +35,11 @@ public class Orchestrateur {
         log.info("File Read !");
     }
 
-
     public List<Gare> generationGOVI(DemandeGOVI demandeGOVI){
         this.listGares = garesProvider.getGares();
-        /*lecteurFichier();
-        nettoyeurDonnees();
-        createurDonnees();
+        fichierLu.setBhl(nettoyeurDonnees.fusionJ1J2(fichierLu.getBhlj1(),fichierLu.getBhlj2()));
+
+        /*createurDonnees();
         affecteurDonnees();*/
 
         return(listGares);

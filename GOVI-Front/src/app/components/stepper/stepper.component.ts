@@ -4,6 +4,8 @@ import { DemandeGOVI } from '../../model/demandeGOVI';
 import { TypeFichierEnum } from '../../model/TypeFichierEnum';
 import { AppelGenerationGoviService } from '../../service/appel-generation-govi.service';
 import { FichierGOVI } from '../../model/FichierGOVI';
+import { Gare } from '../../model/Gare';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-stepper',
@@ -39,13 +41,16 @@ export class StepperComponent {
       Validators.required,
       Validators.pattern(this.excelRegex),
     ]),
-    DateFormControl: new FormControl(new Date(''), [
+    DateFormControl: new FormControl(new Date('01/01/23'), [
       Validators.required,
       Validators.pattern(this.excelRegex),
     ]),
   });
 
-  constructor(private appelGenerationGoviService: AppelGenerationGoviService) {}
+  constructor(
+    private appelGenerationGoviService: AppelGenerationGoviService,
+    private router: Router
+  ) {}
   updateDemandeGOVI() {
     let date = this.step1FormGroup.get('DateFormControl')?.value;
     if (date) {
@@ -62,6 +67,8 @@ export class StepperComponent {
       .appelGenerationGovi(this.demandeGOVI)
       .subscribe((data) => {
         this.isLoading = false;
+        this.appelGenerationGoviService.gares = data;
+        this.router.navigateByUrl('afficheurGOVI');
       });
   }
   onFileSelected(event: any, typeFichier: TypeFichierEnum) {

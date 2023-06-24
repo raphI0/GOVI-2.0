@@ -22,4 +22,15 @@ public class AppConfig {
     public GaresProvider garesConfigProvider() {
         return new GaresProvider();
     }
+
+    /**
+     * Provider for the gares
+     *
+     * @return the provider
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "numcolonnes.bhl")
+    public InfoColonnesProvider infoColonnesProvider() {
+        return new InfoColonnesProvider();
+    }
 }

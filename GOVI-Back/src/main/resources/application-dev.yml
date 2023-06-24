@@ -4,17 +4,17 @@ spring:
       max-file-size: 20MB
       max-request-size: 20MB
 
-numColonnes:
-  BHL:
+numcolonnes:
+  bhl:
     numVoie : 2
     codeMissionDepart : 13
     codeMissionArrivee : 3
     garesTrainArrivee : 8
-    gareArrivee : 18
+    garesTrainDepart : 18
     heureArrivee : 4
     heureDepart : 14
 
-  RATP:
+  ratp:
     numVoie : 2
     codeMissionDepart : 13
     codeMissionArrivee : 3
@@ -42,7 +42,7 @@ gares:
       - id: V11
       - id: V12
   - nom: L2-PEX
-    alias: L2
+    alias: PEX
     quais:
       - id: T54
       - id: T53

@@ -5,5 +5,7 @@ public enum TypeFichierEnum {
     BHLJ1,
     BHLJ2,
     PACIFICJ1,
-    PACIFICJ2;
+    PACIFICJ2,
+    BHL,
+    PACIFIC;
 }

@@ -1,8 +1,27 @@
 spring:
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+numColonnes:
+  BHL:
+    numVoie : 2
+    codeMissionDepart : 13
+    codeMissionArrivee : 3
+    garesTrainArrivee : 8
+    gareArrivee : 18
+    heureArrivee : 4
+    heureDepart : 14
+
+  RATP:
+    numVoie : 2
+    codeMissionDepart : 13
+    codeMissionArrivee : 3
+    garesTrainArrivee : 8
+    gareArrivee : 18
+    heureArrivee : 4
+    heureDepart : 14
 
 urlAPIBack: http://localhost:8080
 

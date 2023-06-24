@@ -20,6 +20,7 @@ export class AppelGenerationGoviService {
   }
 
   envoiDemandeGOVIPartielle(fichierGOVI: FormData) {
+    console.log(fichierGOVI.get('file'));
     return this.httpClient.post(
       'http://localhost:8080/generationGOVI/file',
       fichierGOVI

@@ -36,8 +36,15 @@ public class Orchestrateur {
     }
 
     public List<Gare> generationGOVI(DemandeGOVI demandeGOVI){
+
+        // Création des gares qui doivent être remplis de nos retournements
         this.listGares = garesProvider.getGares();
+
+        // Fusion des fichiers J et J+1
         fichierLu.setBhl(nettoyeurDonnees.fusionJ1J2(fichierLu.getBhlj1(),fichierLu.getBhlj2()));
+        fichierLu.setPacific(nettoyeurDonnees.fusionJ1J2(fichierLu.getPacific1(),fichierLu.getPacific2()));
+
+        createurDonnees.creationRetournement(fichierLu.getBhl(),TypeFichierEnum.BHL.name());
 
         /*createurDonnees();
         affecteurDonnees();*/

@@ -37,7 +37,7 @@ gares:
       - id: V2
       - id: GA
   - nom: CDG2
-    alias: C2
+    alias: RYR
     quais:
       - id: V11
       - id: V12
@@ -50,27 +50,43 @@ gares:
       - id: T51
       - id: VM
   - nom: MASSY
-    alias: MA
+    alias: MPA
     quais:
       - id: QA
       - id: QB
       - id: VZ
       - id: PA
   - nom: ORSAY
-    alias: OR
+    alias: ORS
     quais:
       - id: Q1
       - id: Q2
       - id: QZ
   - nom: StREMY
-    alias: SR
+    alias: REM
     quais:
       - id: Q1
       - id: Q2
       - id: Q3
-  - nom: ROB
-    alias: RO
+  - nom: ROBINSON
+    alias: ROB
     quais:
       - id: Q1
       - id: Q2
       - id: Q4
+  - nom: ROISSY-1
+    alias: RSY
+    quais:
+      - id:
+  - nom: AULNAY-SOUS-BOIS
+    alias: AB
+    quais:
+      - id:
+  - nom: GARE_DU_NORD(souterraine)
+    alias: GDS
+    quais:
+      - id:
+  - nom: GARE_DU_NORD(surface)
+    alias: PNB
+    quais:
+      - id:

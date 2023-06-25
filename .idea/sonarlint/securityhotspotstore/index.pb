@@ -11,10 +11,6 @@ t
 DGOVI-Back/src/main/java/com/sncf/govi/service/model/CouleurEnum.java,5\b\5bab1a56923ba425a380bb4292141c7b1e362dd4
 m
 =GOVI-Back/src/main/java/com/sncf/govi/service/model/Gare.java,9\0\9051c58ff430973ebbfb276c5d3e60d2a69f8fb0
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-]
--.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 A
 GOVI-Back/pom.xml,0\0\0023bca5a5922e959f431577a2f05d07209dda24
 s
@@ -39,3 +35,6 @@ k
 ;GOVI-Front/src/app/service/appel-generation-govi.service.ts,1\e\1e47d35546ad1281ba9d6a6f81b2855ed5d521ad
 j
 :GOVI-Back/src/main/java/com/sncf/govi/GoviApplication.java,7\8\78cc1f8d94e9f3e741b0a305ed8349f3304a2a0e
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

@@ -29,18 +29,18 @@ gares:
   - nom: MITRY
     alias: MY
     quais:
-      - id : V5
-      - id : V3
-      - id: SAS5
-      - id : SAS3
+      - id : 3
+      - id : 5
+      - id: SAS 3
+      - id : SAS 5
       - id: V1
       - id: V2
-      - id: GA
+      - id: GI
   - nom: CDG2
     alias: RYR
     quais:
-      - id: V11
-      - id: V12
+      - id: 11
+      - id: 12
   - nom: L2-PEX
     alias: PEX
     quais:

@@ -1,5 +1,5 @@
 <div *ngIf="isLoading">
-  <h1> PREPAREZ VOUS LES PUTES ARRIVENT</h1>
+  <h1>Génération en cours ...</h1>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <button mat-raised-button (click)="submit()" color="primary">Submit</button>
@@ -63,7 +63,7 @@
           <input matInput required="true" [formControlName]="'DateFormControl'" [matDatepicker]="picker" placeholder="01/01/99">
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="step1FormGroup.get('DateFormControl')?.hasError('pattern')">Mauvaise date salope !</mat-error>
+           <!-- <mat-error *ngIf="step1FormGroup.get('DateFormControl')?.hasError('pattern')"></mat-error> -->
         </mat-form-field>
 
       </form>

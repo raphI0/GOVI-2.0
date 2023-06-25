@@ -14,7 +14,7 @@ import { AppelGenerationGoviService } from '../../service/appel-generation-govi.
   styleUrls: ['./govidisplayer.component.css'],
 })
 export class GOVIDisplayerComponent {
-  niveauDeZoom = 500;
+  niveauDeZoom = 400;
   gares: Gare[] = [];
   retournements: Retournement[] = [];
   dateGovi: Date = new Date();

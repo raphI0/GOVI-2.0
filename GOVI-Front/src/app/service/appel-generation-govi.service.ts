@@ -5,11 +5,13 @@ import { DemandeGOVI } from '../model/demandeGOVI';
 import { Gare } from '../model/Gare';
 import { FichierGOVI } from '../model/FichierGOVI';
 import { Form } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppelGenerationGoviService {
+  public gares!: Gare[];
   constructor(private httpClient: HttpClient) {}
 
   appelGenerationGovi(demandeGOVI: DemandeGOVI) {

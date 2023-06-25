@@ -1,15 +1,15 @@
 import { Mission } from './Mission';
 
 export class Retournement {
-  idQuai: string;
+  couleur: string;
   missionsArrivee: Mission[];
   missionsDepart: Mission[];
   constructor(
-    idQuai: string,
+    couleur: string,
     missionsArrivee: Mission[],
     missionsDepart: Mission[]
   ) {
-    this.idQuai = idQuai;
+    this.couleur = couleur;
     this.missionsArrivee = missionsArrivee;
     this.missionsDepart = missionsDepart;
   }

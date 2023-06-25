@@ -6,6 +6,7 @@ import { Quai } from '../../model/Quai';
 import { Conducteur } from '../../model/Conducteur';
 
 import { MissionSV } from '../../model/MissionSV';
+import { AppelGenerationGoviService } from '../../service/appel-generation-govi.service';
 
 @Component({
   selector: 'app-govidisplayer',
@@ -13,11 +14,12 @@ import { MissionSV } from '../../model/MissionSV';
   styleUrls: ['./govidisplayer.component.css'],
 })
 export class GOVIDisplayerComponent {
+  niveauDeZoom = 500;
   gares: Gare[] = [];
   retournements: Retournement[] = [];
   dateGovi: Date = new Date();
 
-  constructor() {
+  constructor(private appelGenerationGoviService: AppelGenerationGoviService) {
     let conducteur = new Conducteur('10MP', 'CDG', true, false, '#f00020', []);
     this.retournements[0] = new Retournement('ZOBMYSTERE', [], []);
     let mission1 = new Mission(
@@ -81,28 +83,38 @@ export class GOVIDisplayerComponent {
     quaisMitry[1] = new Quai('VULVAX', this.retournements);
     quaisMitry[2] = new Quai('DOUBLEPENE', this.retournements);
     quaisMitry[3] = new Quai('DOUBLEPENE', this.retournements);
-    this.gares[0] = new Gare('MITRY', quaisMitry);
-    this.gares[1] = new Gare('CDG', quais);
-    this.gares[2] = new Gare('StREMY', quais);
-    this.gares[3] = new Gare('StREMY', quais);
-    this.gares[4] = new Gare('StREMY', quais);
+    this.gares[0] = new Gare('MITRY', 'MY', quaisMitry);
+    this.gares[1] = new Gare('CDG', 'MY', quais);
+    this.gares[2] = new Gare('StREMY', 'MY', quais);
+    this.gares[3] = new Gare('StREMY', 'MY', quais);
+    this.gares[4] = new Gare('StREMY', 'MY', quais);
+    console.log(appelGenerationGoviService.gares);
+    this.gares = appelGenerationGoviService.gares;
   }
 
   calculatePositionX(date: Date): number {
-    // Obtient l'heure et les minutes
-    let hour = date.getHours();
-    let minutes = date.getMinutes();
-    // Si c'est une donnée du jour suivant
-    if (date.getDay() - this.dateGovi.getDay() == 1) {
-      hour += 24;
+    let dateToString = date.toString();
+    let date2 = new Date(dateToString);
+
+    if (date2 instanceof Date) {
+      // Obtient l'heure et les minutes
+      let hour = date2.getHours();
+      let minutes = date2.getMinutes();
+      // Si c'est une donnée du jour suivant
+      if (date2.getDay() - this.dateGovi.getDay() == 1) {
+        hour += 24;
+      }
+      // Effectuez vos calculs pour déterminer la position x souhaitée en fonction de l'heure
+      // Par exemple, multipliez l'heure par 50 pour obtenir une valeur de position arbitraire
+
+      return this.calculateHourPositionX(hour, minutes);
+    } else {
+      return -100;
     }
-    // Effectuez vos calculs pour déterminer la position x souhaitée en fonction de l'heure
-    // Par exemple, multipliez l'heure par 50 pour obtenir une valeur de position arbitraire
-    return this.calculateHourPositionX(hour, minutes);
   }
 
   calculateHourPositionX(hour: number, minutes: number): number {
-    return (hour + minutes / 60) * 200;
+    return (hour + minutes / 60) * this.niveauDeZoom;
   }
   getHour(hour: number) {
     if (hour >= 24) {
@@ -113,7 +125,6 @@ export class GOVIDisplayerComponent {
   }
 
   getHeurePremiereMissionArrivee(retournement: Retournement) {
-    console.log(retournement.missionsDepart[0] instanceof MissionSV);
     if (retournement.missionsArrivee[0] != undefined) {
       return retournement.missionsArrivee[0].heureArrivee;
     }
@@ -175,10 +186,6 @@ export class GOVIDisplayerComponent {
       retournement.missionsDepart[retournement.missionsDepart.length - 1] !=
       undefined
     ) {
-      console.log(
-        retournement.missionsDepart[retournement.missionsDepart.length - 1]
-          .heureDepart
-      );
       return retournement.missionsDepart[retournement.missionsDepart.length - 1]
         .heureDepart;
     }
@@ -206,15 +213,32 @@ export class GOVIDisplayerComponent {
   }
 
   getADCCode(conducteur: Conducteur) {
-    if (conducteur.isPS) {
-      return conducteur.codeADC + '+FS';
-    } else if (conducteur.isFS) {
-      return conducteur.codeADC + '+PS';
-    } else return conducteur.codeADC;
+    if (conducteur) {
+      {
+        if (conducteur.isPS) {
+          return conducteur.codeADC + '+FS';
+        } else if (conducteur.isFS) {
+          return conducteur.codeADC + '+PS';
+        } else return conducteur.codeADC;
+      }
+    } else {
+      return '';
+    }
   }
 
   iterateArray(length: number): number[] {
     return Array.from({ length }, (_, index) => index);
+  }
+
+  getCouleurConducteurPrincipal(missionArrivee: Mission) {
+    if (
+      missionArrivee.conducteurTrain &&
+      missionArrivee.conducteurTrain.couleur
+    ) {
+      return missionArrivee.conducteurTrain.couleur;
+    } else {
+      return 'D52B1E';
+    }
   }
 
   protected readonly console = console;

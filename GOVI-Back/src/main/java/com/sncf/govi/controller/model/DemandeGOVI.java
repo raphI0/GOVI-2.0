@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,5 +16,5 @@ import java.util.List;
 @AllArgsConstructor
 public class DemandeGOVI {
     private List<String> idGares;
-    private Date date;
+    private LocalDateTime date;
 }

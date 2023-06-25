@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { GOVIDisplayerComponent } from './components/govidisplayer/govidisplayer.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterOutlet } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent, StepperComponent, GOVIDisplayerComponent],
@@ -34,6 +35,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatNativeDateModule,
     AppRoutingModule,
     MatProgressBarModule,
+    RouterOutlet,
   ],
   providers: [],
   bootstrap: [AppComponent],

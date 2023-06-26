@@ -43,7 +43,7 @@ export class StepperComponent {
     ]),
     DateFormControl: new FormControl(new Date('01/01/23'), [
       Validators.required,
-      Validators.pattern(this.excelRegex),
+      Validators.pattern(this.dateRegex),
     ]),
   });
 

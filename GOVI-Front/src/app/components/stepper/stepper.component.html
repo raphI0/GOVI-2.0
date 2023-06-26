@@ -17,7 +17,7 @@
           <button type="button" mat-raised-button (click)="fileInputBHL1.click()">Choose File</button>
           <input required="true" (change)="onFileSelected($event, TypeFichierEnum.BHLJ1)" hidden #fileInputBHL1 type="file" id="BHL1File">
           <p>{{step1FormGroup.get('BHL1FormControl')?.value}}</p>
-          <mat-error *ngIf="this.step1FormGroup.get('BHL1FormControl')?.invalid && this.step1FormGroup.get('BHL1FormControl')?.untouched">Ajoute le fichier BHL 1 bordel ! </mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('BHL1FormControl')?.invalid && this.step1FormGroup.get('BHL1FormControl')?.untouched">Merci d'ajouter le fichier BHL J </mat-error>
         </mat-form-field>
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>BHL J+1</mat-label>
@@ -26,7 +26,7 @@
           <button type="button" mat-raised-button (click)="fileInputBHL2.click()">Choose File</button>
           <input hidden #fileInputBHL2 (change)="onFileSelected($event, TypeFichierEnum.BHLJ2)" type="file" id="BHL2File">
           <p>{{step1FormGroup.get('BHL2FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('BHL2FormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="step1FormGroup.get('BHL2FormControl')?.hasError('required')">Merci d'ajouter le fichier BHL J+1</mat-error>
         </mat-form-field>
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>PACIFIC J</mat-label>
@@ -35,7 +35,7 @@
           <button type="button" mat-raised-button (click)="fileInputPacific1.click()">Choose File</button>
           <input required="true" hidden (change)="onFileSelected($event, TypeFichierEnum.PACIFICJ1)" #fileInputPacific1 type="file" id="pacific1File">
           <p>{{step1FormGroup.get('pacific1FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('pacific1FormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="step1FormGroup.get('pacific1FormControl')?.hasError('required')">AMerci d'ajouter le fichier Pacific J</mat-error>
         </mat-form-field>
 
         <mat-form-field [formGroup]="step1FormGroup">
@@ -45,7 +45,7 @@
           <button type="button" mat-raised-button (click)="fileInputpacific2.click()">Choose File</button>
           <input hidden #fileInputpacific2 (change)="onFileSelected($event, TypeFichierEnum.PACIFICJ2)" type="file" id="pacific2File">
           <p>{{step1FormGroup.get('pacific2FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('pacific2FormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="step1FormGroup.get('pacific2FormControl')?.hasError('required')">Merci d'ajouter le fichier Pacific J+1</mat-error>
         </mat-form-field>
 
         <mat-form-field [formGroup]="step1FormGroup">
@@ -55,7 +55,7 @@
           <button type="button" mat-raised-button (click)="fileInputRATP.click()">Choose File</button>
           <input required="true" hidden #fileInputRATP (change)="onFileSelected($event, TypeFichierEnum.RATP)" type="file" id="RATPFile">
           <p>{{step1FormGroup.get('RATPFormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('RATPFormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="step1FormGroup.get('RATPFormControl')?.hasError('required')">Merci d'ajouter le fichier RATP</mat-error>
         </mat-form-field>
 
         <mat-form-field [formGroup]="step1FormGroup">
@@ -78,8 +78,8 @@
     <mat-step label="Etape 2">
       <form>
         <mat-form-field>
-          <mat-label>Est-ce que tu bois ?</mat-label>
-          <input matInput placeholder="bu ?">
+          <mat-label>Quel type de GOVI Souhaitez vous ?</mat-label>
+          <input matInput placeholder="EX : Classique, GEOP, perso...">
         </mat-form-field>
       </form>
 

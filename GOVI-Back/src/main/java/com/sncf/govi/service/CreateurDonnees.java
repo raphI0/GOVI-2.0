@@ -27,7 +27,7 @@ import java.util.*;
 public class CreateurDonnees {
 
     private final InfoColonnesProvider infoColonnesProvider;
-    public List<Gare> creationRetournement(Workbook tableau, String origineDesDonnees, LocalDateTime dateFichier, List<Gare> gares) {
+    public List<Gare> creationRetournement(Workbook tableau, String origineDesDonnees, LocalDateTime dateFichier, List<Gare> gares, boolean estJ2) {
        if (origineDesDonnees.equals(TypeFichierEnum.BHL.name())) {
             //Récup info colonne pour donnees BHL
         }
@@ -51,6 +51,7 @@ public class CreateurDonnees {
             Mission missionArrivee = Mission.builder().couleurEnum(CouleurEnum.BLEU_CANARD).build();
             String gare = "";
             String quai = "";
+            boolean retournementInvalide = false;
             for (Cell cell : row) {
                 cellCount++;
                 // Récupére la valeur de la cellule
@@ -100,6 +101,13 @@ public class CreateurDonnees {
                         newDate = newDate.plusMinutes(date.getMinute());
                         newDate = newDate.plusSeconds(date.getSecond());
 
+                        if(estJ2){
+                            newDate = newDate.plusDays(1);
+                            if((date.getHour() >= 1 && date.getMinute() > 30) || date.getHour() >= 2){
+                                retournementInvalide = true;
+                            }
+                        }
+
                         missionArrivee.setHeureArrivee(newDate.toString());
                     }catch (DateTimeParseException e){
                         log.error(e.getMessage());
@@ -115,6 +123,13 @@ public class CreateurDonnees {
                         newDate = newDate.plusMinutes(date.getMinute());
                         newDate = newDate.plusSeconds(date.getSecond());
 
+                        if(estJ2){
+                            newDate = newDate.plusDays(1);
+                            if((date.getHour() >= 1 && date.getMinute() > 30) || date.getHour() >= 2){
+                                retournementInvalide = true;
+                            }
+                        }
+
                         missionDepart.setHeureDepart(newDate.toString());
                     }catch (DateTimeParseException e){
                         log.error(e.getMessage());
@@ -123,10 +138,12 @@ public class CreateurDonnees {
                 }
             }
             // On ajoute les missions remplies dans le retournement
-            retournement.getMissionsDepart().add(missionDepart);
-            retournement.getMissionsArrivee().add(missionArrivee);
-            retournement.setCouleur(CouleurEnum.CARBONE);
-            gares = affecterRetournement(retournement, gares, quai);
+            if(!retournementInvalide) {
+                retournement.getMissionsDepart().add(missionDepart);
+                retournement.getMissionsArrivee().add(missionArrivee);
+                retournement.setCouleur(CouleurEnum.CARBONE);
+                gares = affecterRetournement(retournement, gares, quai);
+            }
         }
         return gares;
 

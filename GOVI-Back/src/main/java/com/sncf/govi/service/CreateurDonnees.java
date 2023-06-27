@@ -1,5 +1,6 @@
 package com.sncf.govi.service;
 
+import com.sncf.govi.configuration.InfoColonnesPacificProvider;
 import com.sncf.govi.configuration.InfoColonnesProvider;
 import com.sncf.govi.controller.model.TypeFichierEnum;
 import com.sncf.govi.service.model.*;
@@ -27,6 +28,8 @@ import java.util.*;
 public class CreateurDonnees {
 
     private final InfoColonnesProvider infoColonnesProvider;
+    private final InfoColonnesPacificProvider infoColonnesPacificProvider;
+    private HashMap<String, ConducteurContainer> conducteursParMission = new HashMap<>();
     public List<Gare> creationRetournement(Workbook tableau, String origineDesDonnees, LocalDateTime dateFichier, List<Gare> gares, boolean estJ2) {
        if (origineDesDonnees.equals(TypeFichierEnum.BHL.name())) {
             //Récup info colonne pour donnees BHL
@@ -36,14 +39,8 @@ public class CreateurDonnees {
             //Récup info colonnes pour données RATP
         }
         Sheet feuille = tableau.getSheetAt(0); // Accéder à la première feuille
-        int rowCount = 0;
         int cellCount = 0;
         for (Row row : feuille) {
-            rowCount++;
-            // Indique la progression dans la console
-            if (rowCount % 1000 == 0) {
-                log.info(String.valueOf(rowCount));
-            }
             cellCount = 0;
             // Crée des retournements et missions vides
             Retournement retournement = Retournement.builder().build();
@@ -139,6 +136,8 @@ public class CreateurDonnees {
             }
             // On ajoute les missions remplies dans le retournement
             if(!retournementInvalide) {
+                missionArrivee = affecterConducteurAMission(missionArrivee);
+                missionDepart = affecterConducteurAMission(missionDepart);
                 retournement.getMissionsDepart().add(missionDepart);
                 retournement.getMissionsArrivee().add(missionArrivee);
                 retournement.setCouleur(CouleurEnum.CARBONE);
@@ -147,6 +146,14 @@ public class CreateurDonnees {
         }
         return gares;
 
+    }
+
+    private Mission affecterConducteurAMission(Mission mission){
+        if(conducteursParMission.get(mission.getCodeMission()) != null) {
+            mission.setConducteurTrain(conducteursParMission.get(mission.getCodeMission()).getConducteurTrain());
+            mission.setConducteursEVLoc(conducteursParMission.get(mission.getCodeMission()).getConducteursEVLoc());
+        }
+        return mission;
     }
 
     /**
@@ -182,5 +189,43 @@ public class CreateurDonnees {
             case NUMERIC -> String.valueOf(cell.getNumericCellValue());
             default -> "";
         };
+    }
+
+    public void creationConducteurs(Workbook tableau){
+        Sheet feuille = tableau.getSheetAt(0); // Accéder à la première feuille
+        for (Row row : feuille) {
+            String codeMission = "";
+            String typeMission = "";
+            Conducteur conducteur = Conducteur.builder().build();
+            int cellCount = 0;
+            for (Cell cell : row) {
+                cellCount++;
+                // Récupére la valeur de la cellule
+                String cellValue = getStringValue(cell);
+                // Récupère le code mission
+                if (cellCount == infoColonnesPacificProvider.codeMission) {
+                    codeMission = cellValue;
+                }
+                else if (cellCount == infoColonnesPacificProvider.codeADC) {
+                    conducteur.setCodeADC(cellValue);
+                }
+                else if (cellCount == infoColonnesPacificProvider.typeMission) {
+                    typeMission = cellValue;
+                }
+            }
+            ConducteurContainer conducteurContainer = conducteursParMission.get(codeMission);
+            if(conducteurContainer == null){
+                conducteurContainer = ConducteurContainer.builder().build();
+                conducteursParMission.put(codeMission, conducteurContainer);
+            }
+            if("Train".equals(typeMission)){
+                conducteurContainer.setConducteurTrain(conducteur);
+                conducteursParMission.put(codeMission, conducteurContainer);
+            }
+            else if("EV Loc".equals(typeMission)){
+                conducteurContainer.getConducteursEVLoc().add(conducteur);
+                conducteursParMission.put(codeMission, conducteurContainer);
+            }
+        }
     }
 }

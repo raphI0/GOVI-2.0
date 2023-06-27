@@ -33,4 +33,15 @@ public class AppConfig {
     public InfoColonnesProvider infoColonnesProvider() {
         return new InfoColonnesProvider();
     }
+
+    /**
+     * Provider for the num colonnes
+     *
+     * @return the provider
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "numcolonnes.pacific")
+    public InfoColonnesPacificProvider infoColonnesPacificProvider() {
+        return new InfoColonnesPacificProvider();
+    }
 }

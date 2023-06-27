@@ -23,6 +23,13 @@ numcolonnes:
     heureArrivee : 4
     heureDepart : 14
 
+  pacific:
+    codeMission : 1
+    typeMission: 2
+    heureDebut: 4
+    heureFin: 7
+    codeADC: 9
+
 urlAPIBack: http://localhost:8080
 
 gares:

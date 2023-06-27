@@ -222,7 +222,7 @@ export class GOVIDisplayerComponent {
         } else return conducteur.codeADC;
       }
     } else {
-      return '';
+      return 'NoADC';
     }
   }
 
@@ -235,9 +235,9 @@ export class GOVIDisplayerComponent {
       missionArrivee.conducteurTrain &&
       missionArrivee.conducteurTrain.couleur
     ) {
-      return missionArrivee.conducteurTrain.couleur;
+      return '#' + missionArrivee.conducteurTrain.couleur;
     } else {
-      return 'D52B1E';
+      return '#D52B1E';
     }
   }
 

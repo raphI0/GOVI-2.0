@@ -40,10 +40,12 @@ public class CreateurDonnees {
         int cellCount = 0;
         for (Row row : feuille) {
             rowCount++;
+            // Indique la progression dans la console
             if (rowCount % 1000 == 0) {
                 log.info(String.valueOf(rowCount));
             }
             cellCount = 0;
+            // Crée des retournements et missions vides
             Retournement retournement = Retournement.builder().build();
             Mission missionDepart = Mission.builder().couleurEnum(CouleurEnum.BLEU_CANARD).build();
             Mission missionArrivee = Mission.builder().couleurEnum(CouleurEnum.BLEU_CANARD).build();
@@ -51,20 +53,24 @@ public class CreateurDonnees {
             String quai = "";
             for (Cell cell : row) {
                 cellCount++;
-                // Récupérez la valeur de la cellule
+                // Récupére la valeur de la cellule
                 String cellValue = getStringValue(cell);
-                // Faites quelque chose avec la valeur de la cellule
+                // Récupère le quai
                 if (cellCount == infoColonnesProvider.numVoie) {
                     quai = cellValue;
                 }
+                // Récupère le code mission de départ
                 else if (cellCount == infoColonnesProvider.codeMissionDepart) {
                     missionDepart.setCodeMission(cellValue);
                 }
+                // Récupère le code mission d'arrivée
                 else if (cellCount == infoColonnesProvider.codeMissionArrivee) {
                     missionArrivee.setCodeMission(cellValue);
                 }
+                // Gares train départ sous forme "CLX/RYR" donc on split la string en deux avec le séparateur "/"
                 else if (cellCount == infoColonnesProvider.garesTrainDepart) {
                     String[] garesSplitted = cellValue.split("/");
+                    // On vérifie d'abord si le résultat du string est non nul
                     if(garesSplitted.length > 0) {
                         missionDepart.setGareArrivee(garesSplitted[0]);
                     }
@@ -72,6 +78,7 @@ public class CreateurDonnees {
                         missionDepart.setGareDepart(garesSplitted[1]);
                     }
                 }
+                // Pareil pour les gares de la mission d'arrivee
                 else if (cellCount == infoColonnesProvider.garesTrainArrivee) {
                     String[] garesSplitted = cellValue.split("/");
                     if(garesSplitted.length > 0) {
@@ -81,6 +88,10 @@ public class CreateurDonnees {
                         missionArrivee.setGareDepart(garesSplitted[1]);
                     }
                 }
+                /* Heure d'arrivee : on ajoute à la date indiquée par l'utilisateur
+                   l'heure de la mission du excel
+                   ainsi 01/01/99 0h00 devient 01/01/99 23h00
+                */
                 else if (cellCount == infoColonnesProvider.heureArrivee) {
                     try{
                         LocalTime date = LocalTime.parse(cellValue);
@@ -95,6 +106,7 @@ public class CreateurDonnees {
                     }
 
                 }
+                // Pareil pour l'heure de départ
                 else if (cellCount == infoColonnesProvider.heureDepart) {
                     try{
                         LocalTime date = LocalTime.parse(cellValue);
@@ -110,6 +122,7 @@ public class CreateurDonnees {
 
                 }
             }
+            // On ajoute les missions remplies dans le retournement
             retournement.getMissionsDepart().add(missionDepart);
             retournement.getMissionsArrivee().add(missionArrivee);
             retournement.setCouleur(CouleurEnum.CARBONE);
@@ -118,11 +131,23 @@ public class CreateurDonnees {
         return gares;
 
     }
+
+    /**
+     * Affecte un retournement à la bonne gare et le bon quai
+     * @param retournement
+     * @param gares
+     * @param idQuai
+     * @return
+     */
     private List<Gare> affecterRetournement(Retournement retournement, List<Gare> gares, String idQuai){
+        // On parcourt toutes les gares et quais
         for(Gare gare : gares){
+            // Si l'alias de la gare correspond
             if(gare.getAlias().equals(retournement.getMissionsArrivee().get(0).getGareDepart())){
                 for(Quai quai : gare.getQuais()){
+                    // Si l'ID du quai correspond
                     if(quai.getId().equals(idQuai)){
+                        // On crée une liste de retournements vide si elle n'existe pas
                         if(quai.getRetournements() == null){
                             quai.setRetournements(new ArrayList<>());
                         }

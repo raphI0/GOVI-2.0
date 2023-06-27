@@ -3,7 +3,7 @@ package com.sncf.govi.configuration;
 import lombok.Data;
 
 /**
- *
+ * Récupère les bons numéros de colonnes dans le YML
  */
 @Data
 public class InfoColonnesProvider {

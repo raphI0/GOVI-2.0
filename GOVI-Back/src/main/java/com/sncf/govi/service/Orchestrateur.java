@@ -10,10 +10,8 @@ import com.sncf.govi.service.model.fichierlecteur.FichierLu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +30,7 @@ public class Orchestrateur {
 
     private final FichierLu fichierLu = FichierLu.builder().build();
 
-    private boolean areAllFilesLoaded = false;
+    private boolean areAllMandatoryFilesLoaded = false;
 
     public void readFile(MultipartFile file, TypeFichierEnum typeFichier){
         this.lecteurFichier.reader(file, typeFichier, fichierLu);
@@ -43,7 +41,7 @@ public class Orchestrateur {
                 && fichierLu.getPacific1() != null
                 && fichierLu.getPacific2() != null){
             log.info("All files read !");
-            areAllFilesLoaded = true;
+            areAllMandatoryFilesLoaded = true;
         }
     }
 

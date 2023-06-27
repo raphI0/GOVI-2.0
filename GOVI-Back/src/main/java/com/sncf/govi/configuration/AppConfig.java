@@ -24,7 +24,7 @@ public class AppConfig {
     }
 
     /**
-     * Provider for the gares
+     * Provider for the num colonnes
      *
      * @return the provider
      */

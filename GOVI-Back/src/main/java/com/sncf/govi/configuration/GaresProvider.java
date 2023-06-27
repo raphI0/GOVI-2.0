@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- *
+ * Récupère les gares dans le YML
  */
 @Data
 public class GaresProvider {

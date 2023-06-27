@@ -11,9 +11,16 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AppelGenerationGoviService {
+  // La liste de gares qu'enverra le back
   public gares!: Gare[];
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient // On injecte httpClient pour appeler le back
+  ) {}
 
+  /**
+   * Appel pour génération du GOVI
+   * @param demandeGOVI
+   */
   appelGenerationGovi(demandeGOVI: DemandeGOVI) {
     return this.httpClient.post<Gare[]>(
       'http://localhost:8080/generationGOVI',
@@ -21,6 +28,10 @@ export class AppelGenerationGoviService {
     );
   }
 
+  /**
+   * Appel pour uniquement charger un fichier
+   * @param fichierGOVI
+   */
   envoiDemandeGOVIPartielle(fichierGOVI: FormData) {
     console.log(fichierGOVI.get('file'));
     return this.httpClient.post(

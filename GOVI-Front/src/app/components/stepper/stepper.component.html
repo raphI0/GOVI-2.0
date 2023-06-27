@@ -1,8 +1,8 @@
+<!-- Barre de chargement : on l'affiche uniquement si isLoading = true -->
 <div *ngIf="isLoading">
   <h1>Génération en cours ...</h1>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
-<button mat-raised-button (click)="submit()" color="primary">Submit</button>
 <div class = "container">
   <h1 class="center">Génération de GOVI</h1>
 
@@ -35,7 +35,7 @@
           <button type="button" mat-raised-button (click)="fileInputPacific1.click()">Choose File</button>
           <input required="true" hidden (change)="onFileSelected($event, TypeFichierEnum.PACIFICJ1)" #fileInputPacific1 type="file" id="pacific1File">
           <p>{{step1FormGroup.get('pacific1FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('pacific1FormControl')?.hasError('required')">AMerci d'ajouter le fichier Pacific J</mat-error>
+          <mat-error *ngIf="step1FormGroup.get('pacific1FormControl')?.hasError('required')">Merci d'ajouter le fichier Pacific J</mat-error>
         </mat-form-field>
 
         <mat-form-field [formGroup]="step1FormGroup">
@@ -53,7 +53,7 @@
           <br>
           <input class="invisible" [formControlName]="'RATPFormControl'" hidden matInput>
           <button type="button" mat-raised-button (click)="fileInputRATP.click()">Choose File</button>
-          <input required="true" hidden #fileInputRATP (change)="onFileSelected($event, TypeFichierEnum.RATP)" type="file" id="RATPFile">
+          <input hidden #fileInputRATP (change)="onFileSelected($event, TypeFichierEnum.RATP)" type="file" id="RATPFile">
           <p>{{step1FormGroup.get('RATPFormControl')?.value}}</p>
           <mat-error *ngIf="step1FormGroup.get('RATPFormControl')?.hasError('required')">Merci d'ajouter le fichier RATP</mat-error>
         </mat-form-field>
@@ -81,6 +81,8 @@
           <mat-label>Quel type de GOVI Souhaitez vous ?</mat-label>
           <input matInput placeholder="EX : Classique, GEOP, perso...">
         </mat-form-field>
+        <button [disabled]="fichierEnCoursDeLecture()" mat-raised-button (click)="submit()" color="primary">Submit</button>
+
       </form>
 
       <!-- Previous and next buttons to navigate through steps -->

@@ -14,6 +14,7 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class StepperComponent {
   demandeGOVI: DemandeGOVI = new DemandeGOVI();
+  fichiersEnCoursDeLecture: number = 0;
   isLoading = false;
 
   dateRegex = '^(0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/([0-9]{2})$';
@@ -25,25 +26,18 @@ export class StepperComponent {
       Validators.required,
       Validators.pattern(this.excelRegex),
     ]),
-    BHL2FormControl: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.excelRegex),
-    ]),
+    BHL2FormControl: new FormControl('', [Validators.pattern(this.excelRegex)]),
     pacific1FormControl: new FormControl('', [
       Validators.required,
       Validators.pattern(this.txtRegex),
     ]),
     pacific2FormControl: new FormControl('', [
-      Validators.required,
       Validators.pattern(this.txtRegex),
     ]),
-    RATPFormControl: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.excelRegex),
-    ]),
+    RATPFormControl: new FormControl('', [Validators.pattern(this.excelRegex)]),
     DateFormControl: new FormControl(new Date('01/01/23'), [
       Validators.required,
-      Validators.pattern(this.dateRegex),
+      //Validators.pattern(this.dateRegex),
     ]),
   });
 
@@ -113,9 +107,18 @@ export class StepperComponent {
     }
   }
   demandeGOVIPartielle(formData: FormData) {
+    this.fichiersEnCoursDeLecture++;
+    console.log(this.fichiersEnCoursDeLecture);
     this.appelGenerationGoviService
       .envoiDemandeGOVIPartielle(formData)
-      .subscribe();
+      .subscribe((data) => {
+        this.fichiersEnCoursDeLecture--;
+        console.log(this.fichiersEnCoursDeLecture);
+      });
+  }
+
+  fichierEnCoursDeLecture() {
+    return this.fichiersEnCoursDeLecture > 0;
   }
 
   protected readonly TypeFichierEnum = TypeFichierEnum;

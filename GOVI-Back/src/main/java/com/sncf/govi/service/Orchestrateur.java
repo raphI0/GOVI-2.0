@@ -57,8 +57,9 @@ public class Orchestrateur {
         //fichierLu.setPacific(nettoyeurDonnees.fusionJ1J2(fichierLu.getPacific1(),fichierLu.getPacific2()));
 
         this.listGares = createurDonnees.creationRetournement(fichierLu.getBhlj1(),TypeFichierEnum.BHL.name(), demandeGOVI.getDate(), this.listGares);
-        this.listGares = createurDonnees.creationRetournement(fichierLu.getBhlj2(),TypeFichierEnum.BHL.name(), demandeGOVI.getDate().plusDays(1), this.listGares);
-
+        if(fichierLu.getBhlj2() != null) {
+            this.listGares = createurDonnees.creationRetournement(fichierLu.getBhlj2(), TypeFichierEnum.BHL.name(), demandeGOVI.getDate().plusDays(1), this.listGares);
+        }
         /*createurDonnees();
         affecteurDonnees();*/
 

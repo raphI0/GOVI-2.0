@@ -81,14 +81,16 @@
           <mat-label>Quel type de GOVI Souhaitez vous ?</mat-label>
           <input matInput placeholder="EX : Classique, GEOP, perso...">
         </mat-form-field>
-        <button [disabled]="fichierEnCoursDeLecture()" mat-raised-button (click)="submit()" color="primary">Submit</button>
 
       </form>
 
       <!-- Previous and next buttons to navigate through steps -->
       <div class="flex-container space-between">
         <button mat-raised-button matStepperPrevious>Previous</button>
-        <button mat-raised-button matStepperNext (click)="submit()" color="primary">Next</button>
+        <button [disabled]="fichierEnCoursDeLecture()" mat-raised-button (click)="submit()" color="primary">
+          Générer
+          <mat-progress-bar *ngIf="fichierEnCoursDeLecture()" mode="indeterminate"></mat-progress-bar>
+        </button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

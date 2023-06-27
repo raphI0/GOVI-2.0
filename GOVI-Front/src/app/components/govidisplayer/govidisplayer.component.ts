@@ -92,6 +92,18 @@ export class GOVIDisplayerComponent {
     this.gares = appelGenerationGoviService.gares;
   }
 
+  zoom() {
+    if (this.niveauDeZoom < 700) {
+      this.niveauDeZoom += 50;
+    }
+  }
+
+  dezoom() {
+    if (this.niveauDeZoom > 150) {
+      this.niveauDeZoom -= 50;
+    }
+  }
+
   calculatePositionX(date: Date): number {
     let dateToString = date.toString();
     let date2 = new Date(dateToString);

@@ -1,3 +1,8 @@
+<div class="zoomButtons">
+  <button mat-raised-button (click)="zoom()">+</button>
+  <p></p>
+  <button mat-raised-button (click)="dezoom()">-</button>
+</div>
 <div class="goviContainer">
   <div class="hoursContainer" [style.width.px]="this.calculateHourPositionX(26, 0)+300">
     <div *ngFor="let h of iterateArray(26)">

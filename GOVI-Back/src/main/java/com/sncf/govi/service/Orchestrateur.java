@@ -56,6 +56,9 @@ public class Orchestrateur {
         //fichierLu.setBhl(nettoyeurDonnees.fusionJ1J2(fichierLu.getBhlj1(),fichierLu.getBhlj2()));
         //fichierLu.setPacific(nettoyeurDonnees.fusionJ1J2(fichierLu.getPacific1(),fichierLu.getPacific2()));
         createurDonnees.creationConducteurs(fichierLu.getPacific1());
+        if(fichierLu.getPacific2() != null){
+            createurDonnees.creationConducteurs(fichierLu.getPacific2());
+        }
         this.listGares = createurDonnees.creationRetournement(fichierLu.getBhlj1(),TypeFichierEnum.BHL.name(), demandeGOVI.getDate(), this.listGares, false);
         if(fichierLu.getBhlj2() != null) {
             this.listGares = createurDonnees.creationRetournement(fichierLu.getBhlj2(), TypeFichierEnum.BHL.name(), demandeGOVI.getDate(), this.listGares, true);

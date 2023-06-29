@@ -1,8 +1,5 @@
-<!-- Barre de chargement : on l'affiche uniquement si isLoading = true -->
-<div *ngIf="isLoading">
-  <h1>Génération en cours ...</h1>
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div>
+<app-loadingbar [isLoading]="isLoading"></app-loadingbar>
+
 <div class = "container">
   <h1 class="center">Génération de GOVI</h1>
 

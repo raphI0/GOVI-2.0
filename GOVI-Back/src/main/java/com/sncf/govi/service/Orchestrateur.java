@@ -1,7 +1,6 @@
 package com.sncf.govi.service;
 
 import com.sncf.govi.configuration.GaresProvider;
-import com.sncf.govi.configuration.InfoColonnesProvider;
 import com.sncf.govi.controller.model.DemandeGOVI;
 import com.sncf.govi.controller.model.TypeFichierEnum;
 import com.sncf.govi.service.model.Conducteur;
@@ -26,11 +25,8 @@ public class Orchestrateur {
     private final GaresProvider garesProvider;
     private final CreateurDonnees createurDonnees;
     private final AffecteurDonnees affecteurDonnees;
-    private final InfoColonnesProvider infoColonnesProvider;
 
     private final FichierLu fichierLu = FichierLu.builder().build();
-
-    private boolean areAllMandatoryFilesLoaded = false;
 
     public void readFile(MultipartFile file, TypeFichierEnum typeFichier){
         this.lecteurFichier.reader(file, typeFichier, fichierLu);
@@ -41,14 +37,10 @@ public class Orchestrateur {
                 && fichierLu.getPacific1() != null
                 && fichierLu.getPacific2() != null){
             log.info("All files read !");
-            areAllMandatoryFilesLoaded = true;
         }
     }
 
     public List<Gare> generationGOVI(DemandeGOVI demandeGOVI){
-        /*if(!areAllFilesLoaded){
-            return new ArrayList<>();
-        }*/
         // Création des gares qui doivent être remplis de nos retournements
         this.listGares = garesProvider.getGares();
 

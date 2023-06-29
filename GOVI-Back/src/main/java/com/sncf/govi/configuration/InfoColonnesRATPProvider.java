@@ -3,10 +3,11 @@ package com.sncf.govi.configuration;
 import lombok.Data;
 
 /**
- * Récupère les bons numéros de colonnes dans le YML
+ * Récupère les bons numéros de colonnes dans le YML (pour le fichier RATP)
  */
+
 @Data
-public class InfoColonnesProvider {
+public class InfoColonnesRATPProvider extends InfoColonnes{
     public int numVoie;
     public int codeMissionDepart;
     public int codeMissionArrivee;

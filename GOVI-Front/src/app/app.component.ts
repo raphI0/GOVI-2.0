@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AppelGenerationGoviService } from './service/appel-generation-govi.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +7,5 @@ import { AppelGenerationGoviService } from './service/appel-generation-govi.serv
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'GOVI-Front';
+  title = environment.titre;
 }

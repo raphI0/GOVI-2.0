@@ -17,6 +17,7 @@ import { GOVIDisplayerComponent } from './components/govidisplayer/govidisplayer
 import { AppRoutingModule } from './app-routing.module';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterOutlet } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent, StepperComponent, GOVIDisplayerComponent],
@@ -37,7 +38,7 @@ import { RouterOutlet } from '@angular/router';
     MatProgressBarModule,
     RouterOutlet,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

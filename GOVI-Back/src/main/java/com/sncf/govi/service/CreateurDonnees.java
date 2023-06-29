@@ -1,7 +1,9 @@
 package com.sncf.govi.service;
 
+import com.sncf.govi.configuration.InfoColonnes;
 import com.sncf.govi.configuration.InfoColonnesPacificProvider;
-import com.sncf.govi.configuration.InfoColonnesProvider;
+import com.sncf.govi.configuration.InfoColonnesBHLProvider;
+import com.sncf.govi.configuration.InfoColonnesRATPProvider;
 import com.sncf.govi.controller.model.TypeFichierEnum;
 import com.sncf.govi.service.model.*;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +14,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
@@ -27,20 +24,46 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CreateurDonnees {
 
-    private final InfoColonnesProvider infoColonnesProvider;
+    private final InfoColonnesBHLProvider infoColonnesBHLProvider;
     private final InfoColonnesPacificProvider infoColonnesPacificProvider;
+    private final InfoColonnesRATPProvider infoColonnesRATPProvider;
+
     private HashMap<String, ConducteurContainer> conducteursParMission = new HashMap<>();
+
+
+    /**
+     * Crée des instances de retournement à partir d'un fichier Excel.
+     *
+     * @param tableau le fichier Excel avec lequel travailler
+     * @param origineDesDonnees l'origine des données (Contenu dans TypeFichierEnum)
+     * @param dateFichier la date à utiliser pour les instances de retournement
+     * @param gares la liste des gares
+     * @param estJ2 indique si le fichier est du Jour 2 (passe minuit)
+     * @return la liste des gares avec des retournements créés
+     */
     public List<Gare> creationRetournement(Workbook tableau, String origineDesDonnees, LocalDateTime dateFichier, List<Gare> gares, boolean estJ2) {
-       if (origineDesDonnees.equals(TypeFichierEnum.BHL.name())) {
+
+        InfoColonnes infoColonnes;
+        if (origineDesDonnees.equals(TypeFichierEnum.BHL.name())) {
             //Récup info colonne pour donnees BHL
+            infoColonnes = infoColonnesBHLProvider;
         }
 
-        if (origineDesDonnees.equals(TypeFichierEnum.RATP.name())) {
+        else if (origineDesDonnees.equals(TypeFichierEnum.RATP.name())) {
             //Récup info colonnes pour données RATP
+            infoColonnes = infoColonnesRATPProvider;
         }
+        //Cas par défaut, permettant de ne jamais se trouver sans info colonnes. Ne devrait jamais être utilisé dans son context
+        else {
+            infoColonnes = null;
+        }
+
         Sheet feuille = tableau.getSheetAt(0); // Accéder à la première feuille
+
         int cellCount = 0;
+
         for (Row row : feuille) {
+
             cellCount = 0;
             // Crée des retournements et missions vides
             Retournement retournement = Retournement.builder().build();
@@ -49,24 +72,26 @@ public class CreateurDonnees {
             String gare = "";
             String quai = "";
             boolean retournementInvalide = false;
+
             for (Cell cell : row) {
+
                 cellCount++;
                 // Récupére la valeur de la cellule
                 String cellValue = getStringValue(cell);
                 // Récupère le quai
-                if (cellCount == infoColonnesProvider.numVoie) {
+                if (cellCount == infoColonnes.numVoie) {
                     quai = cellValue;
                 }
                 // Récupère le code mission de départ
-                else if (cellCount == infoColonnesProvider.codeMissionDepart) {
+                else if (cellCount == infoColonnes.codeMissionDepart) {
                     missionDepart.setCodeMission(cellValue);
                 }
                 // Récupère le code mission d'arrivée
-                else if (cellCount == infoColonnesProvider.codeMissionArrivee) {
+                else if (cellCount == infoColonnes.codeMissionArrivee) {
                     missionArrivee.setCodeMission(cellValue);
                 }
                 // Gares train départ sous forme "CLX/RYR" donc on split la string en deux avec le séparateur "/"
-                else if (cellCount == infoColonnesProvider.garesTrainDepart) {
+                else if (cellCount == infoColonnes.garesTrainDepart) {
                     String[] garesSplitted = cellValue.split("/");
                     // On vérifie d'abord si le résultat du string est non nul
                     if(garesSplitted.length > 0) {
@@ -77,7 +102,7 @@ public class CreateurDonnees {
                     }
                 }
                 // Pareil pour les gares de la mission d'arrivee
-                else if (cellCount == infoColonnesProvider.garesTrainArrivee) {
+                else if (cellCount == infoColonnes.garesTrainArrivee) {
                     String[] garesSplitted = cellValue.split("/");
                     if(garesSplitted.length > 0) {
                         missionArrivee.setGareArrivee(garesSplitted[0]);
@@ -90,7 +115,7 @@ public class CreateurDonnees {
                    l'heure de la mission du excel
                    ainsi 01/01/99 0h00 devient 01/01/99 23h00
                 */
-                else if (cellCount == infoColonnesProvider.heureArrivee) {
+                else if (cellCount == infoColonnes.heureArrivee) {
                     try{
                         LocalTime date = LocalTime.parse(cellValue);
                         LocalDateTime newDate = dateFichier;
@@ -112,7 +137,7 @@ public class CreateurDonnees {
 
                 }
                 // Pareil pour l'heure de départ
-                else if (cellCount == infoColonnesProvider.heureDepart) {
+                else if (cellCount == infoColonnes.heureDepart) {
                     try{
                         LocalTime date = LocalTime.parse(cellValue);
                         LocalDateTime newDate = dateFichier;
@@ -148,6 +173,12 @@ public class CreateurDonnees {
 
     }
 
+    /**
+     * Attribue un conducteur à une mission.
+     *
+     * @param mission la mission à laquelle attribuer un conducteur
+     * @return la mission avec un conducteur attribué
+     */
     private Mission affecterConducteurAMission(Mission mission){
         if(conducteursParMission.get(mission.getCodeMission()) != null) {
             mission.setConducteurTrain(conducteursParMission.get(mission.getCodeMission()).getConducteurTrain());
@@ -183,6 +214,11 @@ public class CreateurDonnees {
         return gares;
     }
 
+    /**
+     * Récupère la valeur d'une cellule
+     * @param cell
+     * @return
+     */
     private String getStringValue(Cell cell) {
         return switch (cell.getCellType()) {
             case STRING -> cell.getStringCellValue();
@@ -213,6 +249,7 @@ public class CreateurDonnees {
                     typeMission = cellValue;
                 }
             }
+
             ConducteurContainer conducteurContainer = conducteursParMission.get(codeMission);
             if(conducteurContainer == null){
                 conducteurContainer = ConducteurContainer.builder().build();

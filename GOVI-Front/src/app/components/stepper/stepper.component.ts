@@ -36,16 +36,32 @@ export class StepperComponent {
       Validators.pattern(this.txtRegex),
     ]),
     RATPFormControl: new FormControl('', [Validators.pattern(this.excelRegex)]),
-    DateFormControl: new FormControl('01/01/23', [
-      Validators.required,
-      Validators.pattern(this.dateRegex),
-    ]),
+    DateFormControl: new FormControl(
+      new Date().toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      }),
+      [Validators.required, Validators.pattern(this.dateRegex)]
+    ),
+  });
+
+  step2FormGroup = new FormGroup({
+    DateFormControl: new FormControl(
+      new Date().toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      }),
+      [Validators.required, Validators.pattern(this.dateRegex)]
+    ),
   });
 
   constructor(
     private appelGenerationGoviService: AppelGenerationGoviService,
     private router: Router
   ) {}
+
   updateDemandeGOVI() {
     let date = this.step1FormGroup.get('DateFormControl')?.value;
     if (date) {

@@ -6,6 +6,7 @@ import { Gare } from '../model/Gare';
 import { FichierGOVI } from '../model/FichierGOVI';
 import { Form } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class AppelGenerationGoviService {
    */
   appelGenerationGovi(demandeGOVI: DemandeGOVI) {
     return this.httpClient.post<Gare[]>(
-      'http://localhost:8080/generationGOVI',
+      environment.url.api.base + environment.url.api.generationGovi,
       demandeGOVI
     );
   }
@@ -35,7 +36,7 @@ export class AppelGenerationGoviService {
   envoiDemandeGOVIPartielle(fichierGOVI: FormData) {
     console.log(fichierGOVI.get('file'));
     return this.httpClient.post(
-      'http://localhost:8080/generationGOVI/file',
+      environment.url.api.base + environment.url.api.envoiFichierGovi,
       fichierGOVI
     );
   }

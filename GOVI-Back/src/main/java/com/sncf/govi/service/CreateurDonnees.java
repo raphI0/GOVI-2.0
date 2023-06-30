@@ -1,6 +1,5 @@
 package com.sncf.govi.service;
 
-import com.sncf.govi.configuration.InfoColonnes;
 import com.sncf.govi.configuration.InfoColonnesPacificProvider;
 import com.sncf.govi.configuration.InfoColonnesBHLProvider;
 import com.sncf.govi.configuration.InfoColonnesRATPProvider;
@@ -43,21 +42,6 @@ public class CreateurDonnees {
      */
     public List<Gare> creationRetournement(Workbook tableau, String origineDesDonnees, LocalDateTime dateFichier, List<Gare> gares, boolean estJ2) {
 
-        InfoColonnes infoColonnes;
-        if (origineDesDonnees.equals(TypeFichierEnum.BHL.name())) {
-            //Récup info colonne pour donnees BHL
-            infoColonnes = infoColonnesBHLProvider;
-        }
-
-        else if (origineDesDonnees.equals(TypeFichierEnum.RATP.name())) {
-            //Récup info colonnes pour données RATP
-            infoColonnes = infoColonnesRATPProvider;
-        }
-        //Cas par défaut, permettant de ne jamais se trouver sans info colonnes. Ne devrait jamais être utilisé dans son context
-        else {
-            infoColonnes = null;
-        }
-
         Sheet feuille = tableau.getSheetAt(0); // Accéder à la première feuille
 
         int cellCount = 0;
@@ -79,19 +63,19 @@ public class CreateurDonnees {
                 // Récupére la valeur de la cellule
                 String cellValue = getStringValue(cell);
                 // Récupère le quai
-                if (cellCount == infoColonnes.numVoie) {
+                if (cellCount == infoColonnesBHLProvider.numVoie) {
                     quai = cellValue;
                 }
                 // Récupère le code mission de départ
-                else if (cellCount == infoColonnes.codeMissionDepart) {
+                else if (cellCount == infoColonnesBHLProvider.codeMissionDepart) {
                     missionDepart.setCodeMission(cellValue);
                 }
                 // Récupère le code mission d'arrivée
-                else if (cellCount == infoColonnes.codeMissionArrivee) {
+                else if (cellCount == infoColonnesBHLProvider.codeMissionArrivee) {
                     missionArrivee.setCodeMission(cellValue);
                 }
                 // Gares train départ sous forme "CLX/RYR" donc on split la string en deux avec le séparateur "/"
-                else if (cellCount == infoColonnes.garesTrainDepart) {
+                else if (cellCount == infoColonnesBHLProvider.garesTrainDepart) {
                     String[] garesSplitted = cellValue.split("/");
                     // On vérifie d'abord si le résultat du string est non nul
                     if(garesSplitted.length > 0) {
@@ -102,7 +86,7 @@ public class CreateurDonnees {
                     }
                 }
                 // Pareil pour les gares de la mission d'arrivee
-                else if (cellCount == infoColonnes.garesTrainArrivee) {
+                else if (cellCount == infoColonnesBHLProvider.garesTrainArrivee) {
                     String[] garesSplitted = cellValue.split("/");
                     if(garesSplitted.length > 0) {
                         missionArrivee.setGareArrivee(garesSplitted[0]);
@@ -115,7 +99,7 @@ public class CreateurDonnees {
                    l'heure de la mission du excel
                    ainsi 01/01/99 0h00 devient 01/01/99 23h00
                 */
-                else if (cellCount == infoColonnes.heureArrivee) {
+                else if (cellCount == infoColonnesBHLProvider.heureArrivee) {
                     try{
                         LocalTime date = LocalTime.parse(cellValue);
                         LocalDateTime newDate = dateFichier;
@@ -137,7 +121,7 @@ public class CreateurDonnees {
 
                 }
                 // Pareil pour l'heure de départ
-                else if (cellCount == infoColonnes.heureDepart) {
+                else if (cellCount == infoColonnesBHLProvider.heureDepart) {
                     try{
                         LocalTime date = LocalTime.parse(cellValue);
                         LocalDateTime newDate = dateFichier;

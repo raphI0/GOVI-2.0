@@ -6,7 +6,7 @@ import lombok.Data;
  * Récupère les bons numéros de colonnes dans le YML
  */
 @Data
-public class InfoColonnesBHLProvider extends InfoColonnes {
+public class InfoColonnesBHLProvider{
     public int numVoie;
     public int codeMissionDepart;
     public int codeMissionArrivee;

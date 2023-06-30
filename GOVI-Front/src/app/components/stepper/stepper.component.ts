@@ -22,40 +22,40 @@ export class StepperComponent {
   excelRegex = '.*\\.(xls|xlsx)$';
   txtRegex = '.*\\.txt$';
 
+  BHL1FormControl: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.pattern(this.excelRegex),
+  ]);
+  BHL2FormControl = new FormControl('', [Validators.pattern(this.excelRegex)]);
+
+  pacific1FormControl = new FormControl('', [
+    Validators.required,
+    Validators.pattern(this.txtRegex),
+  ]);
+  pacific2FormControl = new FormControl('', [
+    Validators.pattern(this.txtRegex),
+  ]);
+
+  RATPFormControl = new FormControl('', [Validators.pattern(this.excelRegex)]);
+
+  DateFormControl = new FormControl(
+    new Date().toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    }),
+    [Validators.required, Validators.pattern(this.dateRegex)]
+  );
+
   step1FormGroup = new FormGroup({
-    BHL1FormControl: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.excelRegex),
-    ]),
-    BHL2FormControl: new FormControl('', [Validators.pattern(this.excelRegex)]),
-    pacific1FormControl: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.txtRegex),
-    ]),
-    pacific2FormControl: new FormControl('', [
-      Validators.pattern(this.txtRegex),
-    ]),
-    RATPFormControl: new FormControl('', [Validators.pattern(this.excelRegex)]),
-    DateFormControl: new FormControl(
-      new Date().toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-      }),
-      [Validators.required, Validators.pattern(this.dateRegex)]
-    ),
+    BHL1FormControl: this.BHL1FormControl,
+    BHL2FormControl: this.BHL2FormControl,
+    pacific1FormControl: this.pacific1FormControl,
+    pacific2FormControl: this.pacific2FormControl,
+    RATPFormControl: this.RATPFormControl,
   });
 
-  step2FormGroup = new FormGroup({
-    DateFormControl: new FormControl(
-      new Date().toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-      }),
-      [Validators.required, Validators.pattern(this.dateRegex)]
-    ),
-  });
+  step2FormGroup = new FormGroup({ DateFormControl: this.DateFormControl });
 
   constructor(
     private appelGenerationGoviService: AppelGenerationGoviService,

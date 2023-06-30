@@ -1,5 +1,4 @@
 <app-loadingbar [isLoading]="isLoading"></app-loadingbar>
-
 <div class ="container">
   <h1 class= "center">Génération de GOVI</h1>
 
@@ -68,10 +67,6 @@
 
     <mat-step label="Date et génération" [stepControl]="step2FormGroup">
       <form class="flex-container-form space-between wrap">
-        <mat-form-field [formGroup]="step2FormGroup">
-          <mat-label>Quel type de GOVI Souhaitez vous ?</mat-label>
-          <input matInput placeholder="EX : Classique, GEOP, perso...">
-        </mat-form-field>
 
         <mat-form-field [formGroup]="step2FormGroup">
           <mat-label>Date du GOVI</mat-label>

@@ -62,12 +62,16 @@ export class StepperComponent {
     private router: Router
   ) {}
 
+  //Maj de la date pour envoi au Back + conversion du format FR au format ISO 8601 utilisé par le type Date
   updateDemandeGOVI() {
-    let date = this.step1FormGroup.get('DateFormControl')?.value;
-    if (date) {
-      this.demandeGOVI.date = new Date(date);
+    let dateString = this.step2FormGroup.get('DateFormControl')?.value;
+    if (dateString) {
+      let parts = dateString.split('/');
+      let date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+      this.demandeGOVI.date = date;
     }
   }
+
   submit() {
     this.updateDemandeGOVI();
     this.appelAPI();

@@ -15,13 +15,13 @@ numcolonnes:
     heureDepart : 14
 
   ratp:
-    numVoie : 2
-    codeMissionDepart : 13
-    codeMissionArrivee : 3
-    garesTrainArrivee : 8
-    gareArrivee : 18
-    heureArrivee : 4
-    heureDepart : 14
+    codeMission : 11
+    codeADC : 10
+    numéroRame : 1
+    manoeuvre : 15
+    typeEvenement : 2
+    numVoieDepart : 9
+    numVoieArrivee : 8
 
   pacific:
     codeMission : 1

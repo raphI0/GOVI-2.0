@@ -1,0 +1,7 @@
+<div class="loading-container" *ngIf="isLoading">
+  <div class="blur-background"></div>
+  <h1>Génération en cours ...</h1>
+  <div class="track">
+    <img class="train" [src]="currentTrainImage" (animationiteration)="changeTrainImage()">
+    <div class="rails" ></div>
+</div>

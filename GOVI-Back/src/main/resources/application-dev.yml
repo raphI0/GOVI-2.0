@@ -1,4 +1,6 @@
 spring:
+  jackson:
+    time-zone: UTC
   servlet:
     multipart:
       max-file-size: 20MB
@@ -15,13 +17,13 @@ numcolonnes:
     heureDepart : 14
 
   ratp:
-    numVoie : 2
-    codeMissionDepart : 13
-    codeMissionArrivee : 3
-    garesTrainArrivee : 8
-    gareArrivee : 18
-    heureArrivee : 4
-    heureDepart : 14
+    codeMission : 11
+    codeADC : 10
+    numeroRame : 1
+    manoeuvre : 15
+    typeEvenement : 2
+    numVoieDepart : 9
+    numVoieArrivee : 8
 
   pacific:
     codeMission : 1
@@ -39,7 +41,7 @@ gares:
       - id : 3
       - id : 5
       - id: SAS 3
-      - id : SAS 5
+      - id: SAS 5
       - id: V1
       - id: V2
       - id: GI

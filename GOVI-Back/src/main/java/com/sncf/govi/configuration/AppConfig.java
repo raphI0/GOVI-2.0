@@ -30,8 +30,8 @@ public class AppConfig {
      */
     @Bean
     @ConfigurationProperties(prefix = "numcolonnes.bhl")
-    public InfoColonnesProvider infoColonnesProvider() {
-        return new InfoColonnesProvider();
+    public InfoColonnesBHLProvider infoColonnesBHLProvider() {
+        return new InfoColonnesBHLProvider();
     }
 
     /**
@@ -43,5 +43,11 @@ public class AppConfig {
     @ConfigurationProperties(prefix = "numcolonnes.pacific")
     public InfoColonnesPacificProvider infoColonnesPacificProvider() {
         return new InfoColonnesPacificProvider();
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "numcolonnes.ratp")
+    public InfoColonnesRATPProvider infoColonnesRATPProvider() {
+        return new InfoColonnesRATPProvider();
     }
 }

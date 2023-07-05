@@ -1,3 +1,8 @@
+<div class="zoomButtons">
+  <button mat-raised-button (click)="zoom()">+</button>
+  <p></p>
+  <button mat-raised-button (click)="dezoom()">-</button>
+</div>
 <div class="goviContainer">
   <div class="hoursContainer" [style.width.px]="this.calculateHourPositionX(26, 0)+300">
     <div *ngFor="let h of iterateArray(26)">
@@ -12,7 +17,7 @@
     <br>
     <div class="flex-container">
       <div class="nomGare flex-container space-between">
-        <p>{{gare.id}}</p>
+        <p>{{gare.nom}}</p>
         <div class="flex-container vertical">
           <div class="quai" *ngFor="let quai of gare.quais">
             <p class="nomQuai">{{quai.id}}</p>
@@ -22,12 +27,12 @@
       <div class="flex-container vertical">
         <div class="quai flex-container" *ngFor="let quai of gare.quais">
           <div *ngFor="let retournement of quai.retournements">
-            <div class="retournement" [style.left.px]="this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))" [style.width.px]="dureeRetournement(retournement)">
+            <div *ngIf="dureeRetournement(retournement) > 0" class="retournement" [style.left.px]="this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))" [style.width.px]="dureeRetournement(retournement)">
               <div class="mission"
                 *ngFor="let missionArrivee of retournement.missionsArrivee"
                 [style.left.px]="this.calculatePositionX(missionArrivee.heureArrivee) - this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))">
                 <div class="rotated">
-                  <p class="texteADC" [style.color]="missionArrivee.conducteurTrain.couleur">{{getADCCode(missionArrivee.conducteurTrain)}}</p>
+                  <p class="texteADC" [style.color]="getCouleurConducteurPrincipal(missionArrivee)">{{getADCCode(missionArrivee.conducteurTrain)}}</p>
                   <p class="texteCodeMission" [style.color]="missionArrivee.couleurEnum">{{missionArrivee.codeMission}}</p>
                 </div>
                 <div class="texteDessousMission">
@@ -38,7 +43,7 @@
                    *ngFor="let missionDepart of retournement.missionsDepart"
                    [style.left.px]="this.calculatePositionX(missionDepart.heureDepart) - this.calculatePositionX(getHeurePremiereMissionArrivee(retournement))">
                 <div class="rotated">
-                  <p class="texteADC" [style.color]="missionDepart.conducteurTrain.couleur">{{getADCCode(missionDepart.conducteurTrain)}}</p>
+                  <p class="texteADC" [style.color]="getCouleurConducteurPrincipal(missionDepart)">{{getADCCode(missionDepart.conducteurTrain)}}</p>
                   <p class="texteCodeMission" [style.color]="missionDepart.couleurEnum">{{missionDepart.codeMission}}</p>
                 </div>
                 <div class="texteDessousMission">

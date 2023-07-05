@@ -1,11 +1,8 @@
-export class DemandeGOVI{
-  fichiers: {[key: string]: string};
-  gares: string[];
+export class DemandeGOVI {
+  idGares: string[];
   date: Date;
   constructor() {
-    this.fichiers= {};
-    this.gares=[];
-    this.date= new Date;
+    this.idGares = [];
+    this.date = new Date();
   }
-
 }

@@ -1,65 +1,60 @@
-<button mat-raised-button (click)="submit()" color="primary">Next</button>
-<div class = "container">
-  <h1 class="center">Génération de GOVI</h1>
+<app-loadingbar [isLoading]="isLoading"></app-loadingbar>
+
+<div class ="container">
+  <h1 class= "center">Génération du GOVI</h1>
 
   <mat-horizontal-stepper [linear]="true" #stepper>
     <!-- Iterate through all steps of the stepper -->
-    <mat-step label="Etape 1" [stepControl]="step1FormGroup">
+    <mat-step label="Ajout des fichiers" [stepControl]="step1FormGroup">
       <form class="flex-container-form space-between wrap">
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>BHL J</mat-label>
           <br>
-          <input class="invisible" hidden matInput>
+          <input class="invisible" [formControlName]="'BHL1FormControl'" hidden matInput>
           <button type="button" mat-raised-button (click)="fileInputBHL1.click()">Choose File</button>
-          <input required="true" hidden #fileInputBHL1 [formControlName]="'BHL1FormControl'" type="file" id="BHL1File">
+          <input required="true" (change)="onFileSelected($event, TypeFichierEnum.BHLJ1)" hidden #fileInputBHL1 type="file" id="BHL1File">
           <p>{{step1FormGroup.get('BHL1FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('BHL1FormControl')?.hasError('required')">Ajoute le fichier BHL 1 bordel ! </mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('BHL1FormControl')?.errors?.['required']">Merci d'ajouter un fichier BHL</mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('BHL1FormControl')?.errors?.['pattern']">Merci d'ajouter un fichier au format .xlsx / .xls</mat-error>
         </mat-form-field>
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>BHL J+1</mat-label>
           <br>
-          <input class="invisible" hidden matInput>
+          <input [formControlName]="'BHL2FormControl'" class="invisible" hidden matInput>
           <button type="button" mat-raised-button (click)="fileInputBHL2.click()">Choose File</button>
-          <input hidden #fileInputBHL2 [formControlName]="'BHL2FormControl'" type="file" id="BHL2File">
+          <input hidden #fileInputBHL2 (change)="onFileSelected($event, TypeFichierEnum.BHLJ2)" type="file" id="BHL2File">
           <p>{{step1FormGroup.get('BHL2FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('BHL2FormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('BHL2FormControl')?.errors?.['pattern']">Merci d'ajouter un fichier au format .xlsx / .xls</mat-error>
         </mat-form-field>
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>PACIFIC J</mat-label>
           <br>
-          <input class="invisible" hidden matInput>
+          <input class="invisible" [formControlName]="'pacific1FormControl'" hidden matInput>
           <button type="button" mat-raised-button (click)="fileInputPacific1.click()">Choose File</button>
-          <input required="true" hidden #fileInputPacific1 [formControlName]="'pacific1FormControl'" type="file" id="pacific1File">
+          <input required="true" hidden (change)="onFileSelected($event, TypeFichierEnum.PACIFICJ1)" #fileInputPacific1 type="file" id="pacific1File">
           <p>{{step1FormGroup.get('pacific1FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('pacific1FormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('pacific1FormControl')?.errors?.['required']">Merci d'ajouter un fichier Pacific</mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('pacific1FormControl')?.errors?.['pattern']">Merci d'ajouter un fichier au format txt</mat-error>
         </mat-form-field>
 
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>PACIFIC J+1</mat-label>
           <br>
-          <input class="invisible" hidden matInput>
+          <input [formControlName]="'pacific2FormControl'" class="invisible" hidden matInput>
           <button type="button" mat-raised-button (click)="fileInputpacific2.click()">Choose File</button>
-          <input hidden #fileInputpacific2 [formControlName]="'pacific2FormControl'" type="file" id="pacific2File">
+          <input hidden #fileInputpacific2 (change)="onFileSelected($event, TypeFichierEnum.PACIFICJ2)" type="file" id="pacific2File">
           <p>{{step1FormGroup.get('pacific2FormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('pacific2FormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('pacific2FormControl')?.errors?.['pattern']">Merci d'ajouter un fichier au format txt</mat-error>
         </mat-form-field>
 
         <mat-form-field [formGroup]="step1FormGroup">
           <mat-label>RATP</mat-label>
           <br>
-          <input class="invisible" hidden matInput>
+          <input class="invisible" [formControlName]="'RATPFormControl'" hidden matInput>
           <button type="button" mat-raised-button (click)="fileInputRATP.click()">Choose File</button>
-          <input required="true" hidden #fileInputRATP [formControlName]="'RATPFormControl'" type="file" id="RATPFile">
+          <input hidden #fileInputRATP (change)="onFileSelected($event, TypeFichierEnum.RATP)" type="file" id="RATPFile">
           <p>{{step1FormGroup.get('RATPFormControl')?.value}}</p>
-          <mat-error *ngIf="step1FormGroup.get('RATPFormControl')?.hasError('required')">Ajoute le fichier BHL 2 bordel ! </mat-error>
-        </mat-form-field>
-
-        <mat-form-field [formGroup]="step1FormGroup">
-          <mat-label>Date du GOVI</mat-label>
-          <input matInput required="true" [formControlName]="'DateFormControl'" [matDatepicker]="picker" placeholder="01/01/99">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="step1FormGroup.get('DateFormControl')?.hasError('required')">Mauvaise date salope !</mat-error>
+          <mat-error *ngIf="this.step1FormGroup.get('RATPFormControl')?.errors?.['pattern']">Merci d'ajouter un fichier au format .xlsx / .xls</mat-error>
         </mat-form-field>
 
       </form>
@@ -71,20 +66,29 @@
       </div>
     </mat-step>
 
-    <mat-step label="Etape 2">
-      <form>
-        <mat-form-field>
-          <mat-label>Est-ce que tu bois ?</mat-label>
-          <input matInput placeholder="bu ?">
+    <mat-step label="Date et génération" [stepControl]="step2FormGroup">
+      <form class="flex-container-form space-between wrap">
+
+        <mat-form-field [formGroup]="step2FormGroup">
+          <mat-label>Date du GOVI</mat-label>
+          <input matInput required="true" [formControlName]="'DateFormControl'" placeholder="01/01/99">
+          <!-- <input matInput required="true" [formControlName]="'DateFormControl'" [matDatepicker]="picker" placeholder="01/01/99"> -->
+          <!-- <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle> -->
+          <!--<mat-datepicker #picker></mat-datepicker> -->
+          <mat-error *ngIf="step2FormGroup.get('DateFormControl')?.hasError('pattern')"> Merci d'entrer une date au format 'JJ/MM/AA'</mat-error>
+          <mat-error *ngIf="step2FormGroup.get('DateFormControl')?.hasError('required')"> Merci d'entrer une date'</mat-error>
         </mat-form-field>
+
       </form>
 
       <!-- Previous and next buttons to navigate through steps -->
       <div class="flex-container space-between">
         <button mat-raised-button matStepperPrevious>Previous</button>
-        <button mat-raised-button matStepperNext (click)="submit()" color="primary">Next</button>
+        <button [disabled]="fichierEnCoursDeLecture()" mat-raised-button (click)="submit()" color="primary">
+          Générer
+          <mat-progress-bar *ngIf="fichierEnCoursDeLecture()" mode="indeterminate"></mat-progress-bar>
+        </button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
-

@@ -10,5 +10,6 @@ public class Conducteur {
     private String codeADC;
     private Boolean isPS;
     private Boolean isFS;
-    private CouleurEnum couleur;
+    @Builder.Default
+    private String couleur = CouleurEnum.ROUGE.getCode();
 }

@@ -22,4 +22,32 @@ public class AppConfig {
     public GaresProvider garesConfigProvider() {
         return new GaresProvider();
     }
+
+    /**
+     * Provider for the num colonnes
+     *
+     * @return the provider
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "numcolonnes.bhl")
+    public InfoColonnesBHLProvider infoColonnesBHLProvider() {
+        return new InfoColonnesBHLProvider();
+    }
+
+    /**
+     * Provider for the num colonnes
+     *
+     * @return the provider
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "numcolonnes.pacific")
+    public InfoColonnesPacificProvider infoColonnesPacificProvider() {
+        return new InfoColonnesPacificProvider();
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "numcolonnes.ratp")
+    public InfoColonnesRATPProvider infoColonnesRATPProvider() {
+        return new InfoColonnesRATPProvider();
+    }
 }

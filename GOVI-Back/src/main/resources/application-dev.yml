@@ -1,23 +1,57 @@
+spring:
+  jackson:
+    time-zone: UTC
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+numcolonnes:
+  bhl:
+    numVoie : 2
+    codeMissionDepart : 13
+    codeMissionArrivee : 3
+    garesTrainArrivee : 8
+    garesTrainDepart : 18
+    heureArrivee : 4
+    heureDepart : 14
+
+  ratp:
+    codeMission : 11
+    codeADC : 10
+    numeroRame : 1
+    manoeuvre : 15
+    typeEvenement : 2
+    numVoieDepart : 9
+    numVoieArrivee : 8
+
+  pacific:
+    codeMission : 1
+    typeMission: 2
+    heureDebut: 4
+    heureFin: 7
+    codeADC: 9
+
 urlAPIBack: http://localhost:8080
 
 gares:
   - nom: MITRY
     alias: MY
     quais:
-      - id : V5
-      - id : V3
-      - id: SAS5
-      - id : SAS3
+      - id : 3
+      - id : 5
+      - id: SAS 3
+      - id: SAS 5
       - id: V1
       - id: V2
-      - id: GA
+      - id: GI
   - nom: CDG2
-    alias: C2
+    alias: RYR
     quais:
-      - id: V11
-      - id: V12
+      - id: 11
+      - id: 12
   - nom: L2-PEX
-    alias: L2
+    alias: PEX
     quais:
       - id: T54
       - id: T53
@@ -25,27 +59,43 @@ gares:
       - id: T51
       - id: VM
   - nom: MASSY
-    alias: MA
+    alias: MPA
     quais:
       - id: QA
       - id: QB
       - id: VZ
       - id: PA
   - nom: ORSAY
-    alias: OR
+    alias: ORS
     quais:
       - id: Q1
       - id: Q2
       - id: QZ
   - nom: StREMY
-    alias: SR
+    alias: REM
     quais:
       - id: Q1
       - id: Q2
       - id: Q3
-  - nom: ROB
-    alias: RO
+  - nom: ROBINSON
+    alias: ROB
     quais:
       - id: Q1
       - id: Q2
       - id: Q4
+  - nom: ROISSY-1
+    alias: RSY
+    quais:
+      - id:
+  - nom: AULNAY-SOUS-BOIS
+    alias: AB
+    quais:
+      - id:
+  - nom: GARE_DU_NORD(souterraine)
+    alias: GDS
+    quais:
+      - id:
+  - nom: GARE_DU_NORD(surface)
+    alias: PNB
+    quais:
+      - id:

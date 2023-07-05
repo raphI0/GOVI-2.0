@@ -1,3 +1,9 @@
+.zoomButtons{
+  z-index: 2;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
 
 .hoursContainer {
   position: sticky;
@@ -70,6 +76,8 @@
 }
 
 .rotated {
+  margin-top: 13px;
+  position: relative;
   transform-origin: left center; /* Définit le centre de rotation à la partie gauche */
   transform: translate(-0%, 0%) rotate(-30deg); /* Applique la rotation de -90 degrés */
 }
@@ -78,8 +86,9 @@
   font-size: 9px;
 }
 .texteADC{
+  position: relative;
   font-size: 7px;
-  margin-top: 13px;
+  top: 3px;
 }
 
 .texteDessousMission{

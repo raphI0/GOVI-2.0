@@ -1,5 +1,6 @@
 package com.sncf.govi.service;
 
+import com.sncf.govi.controller.model.TypeFichierEnum;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -70,28 +71,40 @@ public class NettoyeurDonnees {
         return (donneesConducteurs);
     }
 
-    public Workbook fusionJ1J2(Workbook donneesJ1, Workbook donneesJ2) {
+    public Workbook fusionJ1J2(Workbook donneesJ1, Workbook donneesJ2, TypeFichierEnum typeFichierEnum) {
         // Créer un nouveau workbook pour les données fusionnées
         Workbook donneesFusionnées = new XSSFWorkbook();
 
         // Créer une nouvelle feuille de calcul dans le workbook fusionné
         Sheet sheetFusion = donneesFusionnées.createSheet("Données Fusionnées");
 
+        // On saute la première ligne du second fichier BHL pour éviter que le nom des colonnes soit une deuxième
+        // fois dans le fichier et au milieu de celui-ci
+        boolean sauterPremiereLigne = false;
+        if (typeFichierEnum.equals(TypeFichierEnum.BHL)){
+            sauterPremiereLigne = true;
+        }
+
         // Parcourir les données dans le premier workbook et les copier dans le workbook fusionné
-        copierDonneesWorkbook(donneesJ1, sheetFusion);
+        copierDonneesWorkbook(donneesJ1, sheetFusion, false);
 
         // Parcourir les données dans le deuxième workbook et les copier dans le workbook fusionné
-        copierDonneesWorkbook(donneesJ2, sheetFusion);
+        copierDonneesWorkbook(donneesJ2, sheetFusion, sauterPremiereLigne);
 
         return (donneesFusionnées);
     }
 
-    private void copierDonneesWorkbook(Workbook workbook, Sheet sheetFusion) {
+    private void copierDonneesWorkbook(Workbook workbook, Sheet sheetFusion, boolean sauterPremiereLigne) {
         Sheet sheetSource = workbook.getSheetAt(0);
         Iterator<Row> rowIterator = sheetSource.iterator();
         int rowCount = 0;
         if(sheetFusion.getLastRowNum() > 0) {
             rowCount = sheetFusion.getLastRowNum() + 1;
+        }
+
+        // Ignorer la première ligne, le cas échéant
+        if (sauterPremiereLigne && rowIterator.hasNext()) {
+            rowIterator.next();
         }
 
         while (rowIterator.hasNext()) {

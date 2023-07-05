@@ -11,10 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @Service
@@ -25,8 +21,8 @@ public class LecteurFichier {
             case BHLJ1 -> fichierLu.setBhlj1(xlsreader(fichier));
             case BHLJ2 -> fichierLu.setBhlj2(xlsreader(fichier));
             case RATP -> fichierLu.setRatp(xlsreader(fichier));
-            case PACIFICJ1 -> fichierLu.setPacific1(csvToExcel(fichier));
-            case PACIFICJ2 -> fichierLu.setPacific2(csvToExcel(fichier));
+            case PACIFICJ1 -> fichierLu.setPacificj1(csvToExcel(fichier));
+            case PACIFICJ2 -> fichierLu.setPacificj2(csvToExcel(fichier));
         }
     }
 

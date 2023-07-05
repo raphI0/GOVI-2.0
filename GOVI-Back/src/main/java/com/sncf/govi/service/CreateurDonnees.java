@@ -3,6 +3,7 @@ package com.sncf.govi.service;
 import com.sncf.govi.configuration.InfoColonnesPacificProvider;
 import com.sncf.govi.configuration.InfoColonnesBHLProvider;
 import com.sncf.govi.configuration.InfoColonnesRATPProvider;
+import com.sncf.govi.controller.model.TypeFichierEnum;
 import com.sncf.govi.service.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -111,7 +112,10 @@ public class CreateurDonnees {
      * @param estJ2 indique si le fichier est du Jour 2 (passe minuit)
      * @return la liste des gares avec des retournements créés et insérés
      */
-    public List<Gare> creationRetournementBHL(Workbook tableau, LocalDateTime dateFichier, List<Gare> gares, boolean estJ2) {
+    public List<Gare> creationRetournementBHL(Workbook tableau, LocalDateTime dateFichier, List<Gare> gares, TypeFichierEnum typeFichier) {
+
+        // Boolean qui permet de savoir si notre fichier est celui du J2 ou non
+        boolean estJ2 = typeFichier.equals(TypeFichierEnum.BHLJ2);
 
         Sheet feuille = tableau.getSheetAt(0); // Accéder à la première feuille
 
@@ -276,9 +280,10 @@ public class CreateurDonnees {
             newDate = newDate.plusMinutes(minutes);
             newDate = newDate.plusSeconds(seconds);
 
-            // D'office, si le retournement est à J+1 mais dépasse la plage horaire de notre fin de journée sur la B
-            // (1H30 du matin), il est définit comme invalide et ne sera pas pris en compte
+            // D'office, si le retournement est à J+1, mais dépasse la plage horaire de notre fin de journée sur la B
+            // (1H30 du matin), il est défini comme invalide et ne sera pas pris en compte
             if(estJ2){
+                // Si J2, on définit notre retournement comme se passant le lendemain
                 newDate = newDate.plusDays(1);
                 if((hours >= 1 && minutes > 30) || hours >= 2){
                     retournementInvalide[0] = true;

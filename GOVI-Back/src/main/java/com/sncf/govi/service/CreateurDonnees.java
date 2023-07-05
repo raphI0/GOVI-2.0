@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
@@ -68,11 +67,11 @@ public class CreateurDonnees {
 
                 // Gares train départ sous forme "CLX/RYR" donc on split la string en deux avec le séparateur "/"
                 else if (cellCount == infoColonnesBHLProvider.garesTrainDepart) {
-                    separationGares(missionDepart, cellValue);
+                    assignationGares(missionDepart, cellValue);
                 }
                 // Pareil pour les gares de la mission d'arrivee
                 else if (cellCount == infoColonnesBHLProvider.garesTrainArrivee) {
-                    separationGares(missionArrivee, cellValue);
+                    assignationGares(missionArrivee, cellValue);
                 }
 
                 /* Heure d'arrivee : on ajoute à la date indiquée par l'utilisateur
@@ -82,7 +81,7 @@ public class CreateurDonnees {
                 else if (cellCount == infoColonnesBHLProvider.heureArrivee) {
                     //Création d'un objet list d'un seul élément primitif, pour pourvoir le passer par référence (et donc que la méthode modifie tout sans return)
                     boolean[] lRetournementInvalide = new boolean[]{retournementInvalide};
-                    missionArrivee.setHeureDepart(calculeDateEtHeure(dateFichier, estJ2, lRetournementInvalide, cellValue));
+                    missionArrivee.setHeureDepart(calculeDateEtHeure(dateFichier, false, lRetournementInvalide, cellValue));
                     retournementInvalide = lRetournementInvalide[0];
                 }
                 // Pareil pour l'heure de départ
@@ -117,9 +116,15 @@ public class CreateurDonnees {
         Sheet feuille = tableau.getSheetAt(0); // Accéder à la première feuille
 
         int cellCount = 0;
+        boolean firstRow = true;
 
         for (Row row : feuille) {
 
+            // permet de sauter la première ligne avec le nom des colonnes
+            if (firstRow) {
+                firstRow = false;
+                continue;
+            }
             cellCount = 0;
             // Crée des retournements et missions vides
             Retournement retournement = Retournement.builder().build();
@@ -149,11 +154,11 @@ public class CreateurDonnees {
 
                 // Gares train départ sous forme "CLX/RYR" donc on split la string en deux avec le séparateur "/"
                 else if (cellCount == infoColonnesBHLProvider.garesTrainDepart) {
-                    separationGares(missionDepart, cellValue);
+                    assignationGares(missionDepart, cellValue);
                 }
                 // Pareil pour les gares de la mission d'arrivee
                 else if (cellCount == infoColonnesBHLProvider.garesTrainArrivee) {
-                    separationGares(missionArrivee, cellValue);
+                    assignationGares(missionArrivee, cellValue);
                 }
 
                 /* Heure d'arrivee : on ajoute à la date indiquée par l'utilisateur
@@ -163,7 +168,7 @@ public class CreateurDonnees {
                 else if (cellCount == infoColonnesBHLProvider.heureArrivee) {
                     //Création d'un objet list d'un seul élément primitif, pour pourvoir le passer par référence (et donc que la méthode modifie tout sans return)
                     boolean[] lRetournementInvalide = new boolean[]{retournementInvalide};
-                    missionArrivee.setHeureDepart(calculeDateEtHeure(dateFichier, estJ2, lRetournementInvalide, cellValue));
+                    missionArrivee.setHeureArrivee(calculeDateEtHeure(dateFichier, estJ2, lRetournementInvalide, cellValue));
                     retournementInvalide = lRetournementInvalide[0];
                 }
                 // Pareil pour l'heure de départ
@@ -235,14 +240,14 @@ public class CreateurDonnees {
      * @param mission est la mission dont nous cherchons les gares d'arrivée/depart
      * @param cellValue est la cellule qui contient les deux gares séparées par un '/'
      */
-    private void separationGares(Mission mission, String cellValue) {
+    private void assignationGares(Mission mission, String cellValue) {
         String[] garesSeparees = cellValue.split("/");
         // On vérifie d'abord si le résultat du string est non nul
         if(garesSeparees.length > 0) {
-            mission.setGareArrivee(garesSeparees[0]);
+            mission.setGareDepart(garesSeparees[0]);
         }
         if(garesSeparees.length == 2) {
-            mission.setGareDepart(garesSeparees[1]);
+            mission.setGareArrivee(garesSeparees[1]);
         }
     }
 
@@ -257,25 +262,34 @@ public class CreateurDonnees {
      * @return l'heure du retournement
      */
     private String calculeDateEtHeure(LocalDateTime dateFichier, boolean estJ2, boolean[] retournementInvalide, String cellValue) {
+
         LocalDateTime newDate = dateFichier;
         try{
-            LocalTime date = LocalTime.parse(cellValue);
-            newDate = newDate.plusHours(date.getHour());
-            newDate = newDate.plusMinutes(date.getMinute());
-            newDate = newDate.plusSeconds(date.getSecond());
+            // On découpe notre String temps, et on la réduit de 24H si elle les dépasse
+            String[] timeParts = cellValue.split(":");
+            int hours = Integer.parseInt(timeParts[0]) %24;
+            int minutes = Integer.parseInt(timeParts[1]);
+            int seconds = Integer.parseInt(timeParts[2]);
 
+            // On modifie l'heure renseigner par l'utilisateur via la découpe temporelle précédente
+            newDate = newDate.plusHours(hours);
+            newDate = newDate.plusMinutes(minutes);
+            newDate = newDate.plusSeconds(seconds);
+
+            // D'office, si le retournement est à J+1 mais dépasse la plage horaire de notre fin de journée sur la B
+            // (1H30 du matin), il est définit comme invalide et ne sera pas pris en compte
             if(estJ2){
                 newDate = newDate.plusDays(1);
-                if((date.getHour() >= 1 && date.getMinute() > 30) || date.getHour() >= 2){
+                if((hours >= 1 && minutes > 30) || hours >= 2){
                     retournementInvalide[0] = true;
                 }
             }
-
 
         }catch (DateTimeParseException e){
             log.error(e.getMessage());
         }
 
+        // Et on finit par renvoyer la date et l'heure du retournement
         return (newDate.toString());
     }
 

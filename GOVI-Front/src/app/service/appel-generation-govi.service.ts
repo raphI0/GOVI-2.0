@@ -23,6 +23,7 @@ export class AppelGenerationGoviService {
    * @param demandeGOVI
    */
   appelGenerationGovi(demandeGOVI: DemandeGOVI) {
+    console.log(demandeGOVI);
     return this.httpClient.post<Gare[]>(
       environment.url.api.base + environment.url.api.generationGovi,
       demandeGOVI

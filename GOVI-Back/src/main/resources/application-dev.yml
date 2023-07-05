@@ -1,4 +1,6 @@
 spring:
+  jackson:
+    time-zone: UTC
   servlet:
     multipart:
       max-file-size: 20MB
@@ -17,7 +19,7 @@ numcolonnes:
   ratp:
     codeMission : 11
     codeADC : 10
-    numéroRame : 1
+    numeroRame : 1
     manoeuvre : 15
     typeEvenement : 2
     numVoieDepart : 9

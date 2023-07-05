@@ -9,10 +9,10 @@ import lombok.Data;
 @Data
 public class InfoColonnesRATPProvider{
     public int codeMission;
-    public int numVoieDepart;
-    public int numVoieArrivee;
     public int codeADC; //S07
-    public int numéroRame; // T1,T2...
+    public int numeroRame; // T1,T2...
     public int manoeuvre; //R = Retournement, D= Degarage, G= Garage + Alias Gare + Voie arrivee et depart
     public int typeEvenement; //MSC, MEC
+    public int numVoieDepart;
+    public int numVoieArrivee;
 }

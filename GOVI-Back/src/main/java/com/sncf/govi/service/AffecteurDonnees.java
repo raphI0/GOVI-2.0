@@ -10,6 +10,16 @@ import java.util.List;
 @Service
 public class AffecteurDonnees {
 
+    /**
+     * Remplissage de notre instance de retournement et ajout de celui-ci à notre gare
+     * @param missionArrivee entité mission d'arrivée de notre retournement
+     * @param missionDepart entité mission de départ de notre retournement
+     * @param retournement notre entité à remplir
+     * @param gares liste de nos gares, auxquelles ajouter nos retournements
+     * @param quai ID du quai sur lequel se déroule le retournement
+     * @param conducteursParMission Hashmap, avec la liste des conducteurs pour chaque mission (et EV Loc)
+     * @return la liste de nos gares remplit de notre retournement
+     */
     public List<Gare> affectation (Mission missionArrivee, Mission missionDepart, Retournement retournement, List<Gare> gares, String quai, HashMap<String, ConducteurContainer> conducteursParMission){
 
         retournement.getMissionsDepart().add(missionDepart);

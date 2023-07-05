@@ -45,11 +45,6 @@ public class Orchestrateur {
         // Création des gares qui doivent être remplis de nos retournements
         this.listGares = garesProvider.getGares();
 
-        // Modification de la date pour qu'elle ne contienne que le jour, pas les heures
-        if (demandeGOVI.getDate() != null) {
-            demandeGOVI.setDate(demandeGOVI.getDate().truncatedTo(ChronoUnit.DAYS));
-        }
-
         // Fusion des fichiers J et J+1
         //fichierLu.setBhl(nettoyeurDonnees.fusionJ1J2(fichierLu.getBhlj1(),fichierLu.getBhlj2()));
         //fichierLu.setPacific(nettoyeurDonnees.fusionJ1J2(fichierLu.getPacific1(),fichierLu.getPacific2()));
@@ -67,9 +62,9 @@ public class Orchestrateur {
         }
 
         // Création de nos retournements (et affectation quai/gare) via la lecture du fichier RATP
-        if(fichierLu.getRatp() != null) {
+        /*if(fichierLu.getRatp() != null) {
             this.listGares = createurDonnees.creationRetournementRATP(fichierLu.getRatp(),demandeGOVI.getDate(),this.listGares);
-        }
+        }*/
 
         return(listGares);
     }

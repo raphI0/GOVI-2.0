@@ -6,6 +6,7 @@ import { AppelGenerationGoviService } from '../../service/appel-generation-govi.
 import { FichierGOVI } from '../../model/FichierGOVI';
 import { Gare } from '../../model/Gare';
 import { Router, RouterOutlet } from '@angular/router';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-stepper',
@@ -62,13 +63,12 @@ export class StepperComponent {
     private router: Router
   ) {}
 
-  //Maj de la date pour envoi au Back + conversion du format FR au format ISO 8601 utilisé par le type Date
+  // La date est récupéré et mise à UTC+2 avec moment.js, pour unifier le format avec le back et au format JJ/MM/AA
   updateDemandeGOVI() {
-    let dateString = this.step2FormGroup.get('DateFormControl')?.value;
-    if (dateString) {
-      let parts = dateString.split('/');
-      let date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-      this.demandeGOVI.date = date;
+    let date = this.step2FormGroup.get('DateFormControl')?.value;
+    if (date) {
+      console.log(moment(date, 'DD/MM/YY').toDate());
+      this.demandeGOVI.date = moment(date, 'DD/MM/YY').toDate();
     }
   }
 

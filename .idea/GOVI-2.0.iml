@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/GOVI-Front/dist" />
       <excludeFolder url="file://$MODULE_DIR$/GOVI-Front/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/GOVI-Front/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

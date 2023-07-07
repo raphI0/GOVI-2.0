@@ -7,9 +7,9 @@ import lombok.Data;
  */
 @Data
 public class InfoColonnesPacificProvider {
-    public int codeMission;
-    public int typeMission;
-    public int heureDebut;
-    public int heureFin;
-    public int codeADC;
+    private int codeMission;
+    private int typeMission;
+    private int heureDebut;
+    private int heureFin;
+    private int codeADC;
 }

@@ -7,11 +7,11 @@ import lombok.Data;
  */
 @Data
 public class InfoColonnesBHLProvider{
-    public int numVoie;
-    public int codeMissionDepart;
-    public int codeMissionArrivee;
-    public int garesTrainArrivee;
-    public int garesTrainDepart;
-    public int heureArrivee;
-    public int heureDepart;
+    private int numVoie;
+    private int codeMissionDepart;
+    private int codeMissionArrivee;
+    private int garesTrainArrivee;
+    private int garesTrainDepart;
+    private int heureArrivee;
+    private int heureDepart;
 }

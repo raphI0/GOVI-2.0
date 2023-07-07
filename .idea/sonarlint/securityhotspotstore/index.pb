@@ -1,12 +1,4 @@
 
-m
-=GOVI-Back/src/main/java/com/sncf/govi/service/model/Quai.java,8\2\82aaa762abc60f69002676e9c13f87f9ddd46f3f
-m
-=GOVI-Back/src/main/java/com/sncf/govi/service/model/Gare.java,9\0\9051c58ff430973ebbfb276c5d3e60d2a69f8fb0
-s
-CGOVI-Back/src/main/java/com/sncf/govi/service/model/Conducteur.java,8\5\855fe6d39cf62ab2e122d04ebcd35b89942bf758
-D
-GOVI-Back/.gitignore,1\7\1772ae27db04f82cec14bc10f1f7fc4c9d55dbd8
 E
 GOVI-Front/.gitignore,2\4\242e4d2f76f3de87af1557558fc28694e133cc45
 :
@@ -14,8 +6,6 @@ E
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 F
 GOVI-Front/src/main.ts,4\f\4f1094c2b7c9275107663d3f38b54e97f2d66665
-|
-LGOVI-Back/src/main/java/com/sncf/govi/service/model/ConducteurContainer.java,d\7\d7c8619e1ba17807a0490b0382d2a0442dc04432
 p
 @GOVI-Front/src/app/service/appel-generation-govi.service.spec.ts,f\0\f05bb6a3312275c7a998c9e35b4319d4e312f18c
 R
@@ -26,8 +16,6 @@ p
 @GOVI-Front/src/app/components/loadingbar/loadingbar.component.ts,5\5\55243b4a963ea84fc7fa855f893dbf32d519a705
 u
 EGOVI-Front/src/app/components/loadingbar/loadingbar.component.spec.ts,5\d\5db08628ac91617198ad9e6a16cbce67364323d5
-v
-FGOVI-Back/src/main/java/com/sncf/govi/configuration/GaresProvider.java,d\6\d670dbe9c356724a3f099e74dc8dfab54a397230
 I
 GOVI-Front/src/index.html,5\b\5bcca5d45c40c073701f8d6f1200654c4cd36bec
 X
@@ -42,10 +30,6 @@ P
  GOVI-Front/src/app/model/Gare.ts,7\f\7f3f3a41791efc0ca660d586d7919cce1a82e42b
 V
 &GOVI-Front/src/app/model/Conducteur.ts,c\2\c27ba873f8f21ba743040cff5cc20dc215bd1f38
-A
-GOVI-Back/pom.xml,0\0\0023bca5a5922e959f431577a2f05d07209dda24
-w
-GGOVI-Back/src/main/java/com/sncf/govi/controller/model/DemandeGOVI.java,a\8\a887bdd915bf250a19a3762b7b7284d415dae611
 o
 ?GOVI-Front/src/app/components/stepper/stepper.component.spec.ts,2\9\29ad0683dc25323fa210fca3292977ef49ad1cec
 S
@@ -56,34 +40,18 @@ T
 $GOVI-Front/src/app/app.component.css,c\d\cd41228f0caf785b7227379f17fe52bad41d82a8
 W
 'GOVI-Front/src/app/model/demandeGOVI.ts,1\5\15f5123a239ee1c3e1e5ab30cdd46d296db8dee1
-Ä
-PGOVI-Back/src/main/java/com/sncf/govi/configuration/InfoColonnesBHLProvider.java,9\f\9f4f725f8249a1d2201a15736a028ba0b630c5c1
-r
-BGOVI-Back/src/main/java/com/sncf/govi/configuration/AppConfig.java,c\6\c66c9af790a8d6969ddbfe528b412b62b3fbff6e
-Ñ
-TGOVI-Back/src/main/java/com/sncf/govi/configuration/InfoColonnesPacificProvider.java,1\a\1a5ac6a5f58664165d0d2cd535485707e7fec7e6
-t
-DGOVI-Back/src/main/java/com/sncf/govi/controller/GoviController.java,b\0\b0da2308f212405e4094d74d5589b87417877254
 X
 (GOVI-Front/src/app/app-routing.module.ts,2\3\2339315a36c162970a6bef99e218d80144dbe983
 _
 /GOVI-Front/src/environments/environment.prod.ts,2\d\2d9362074f2080bae0b51b384d6398ba2f7f8356
-j
-:GOVI-Back/src/main/java/com/sncf/govi/GoviApplication.java,7\8\78cc1f8d94e9f3e741b0a305ed8349f3304a2a0e
 P
  GOVI-Front/src/app/app.module.ts,a\d\ad997fca15c4ca0f47a98028e731f68cae0413f3
 k
 ;GOVI-Front/src/app/components/stepper/stepper.component.css,e\9\e985ea154d384feb2e9191ab8f30458c40bbe97a
 r
 BGOVI-Front/src/app/components/loadingbar/loadingbar.component.html,2\e\2ed20d1c40ca50420b6fd1d02533a9508b798000
-t
-DGOVI-Back/src/main/java/com/sncf/govi/service/model/CouleurEnum.java,5\b\5bab1a56923ba425a380bb4292141c7b1e362dd4
-Å
-QGOVI-Back/src/main/java/com/sncf/govi/service/model/CouleurRetournementsEnum.java,4\2\428dc65c6c71ae3bce150146f00265ff2eeb612a
 L
 GOVI-Front/package-lock.json,3\a\3a8e3136abfad02d868f0d16fa7fd795b4e890c2
-Å
-QGOVI-Back/src/main/java/com/sncf/govi/configuration/InfoColonnesRATPProvider.java,b\1\b1f54e1a50024ca3b837924a2ed6e57287f0b865
 q
 AGOVI-Front/src/app/components/loadingbar/loadingbar.component.css,c\f\cff9df65a10b3372e20537899ccc687e88376bf1
 G

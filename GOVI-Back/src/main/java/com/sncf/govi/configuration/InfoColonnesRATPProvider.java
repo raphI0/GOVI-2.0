@@ -8,11 +8,11 @@ import lombok.Data;
 
 @Data
 public class InfoColonnesRATPProvider{
-    public int codeMission;
-    public int codeADC; //S07
-    public int numeroRame; // T1,T2...
-    public int manoeuvre; //R = Retournement, D= Degarage, G= Garage + Alias Gare + Voie arrivee et depart
-    public int typeEvenement; //MSC, MEC
-    public int numVoieDepart;
-    public int numVoieArrivee;
+    private int codeMission;
+    private int codeADC; //S07
+    private int numeroRame; // T1,T2...
+    private int manoeuvre; //R = Retournement, D= Degarage, G= Garage + Alias Gare + Voie arrivee et depart
+    private int typeEvenement; //MSC, MEC
+    private int numVoieDepart;
+    private int numVoieArrivee;
 }

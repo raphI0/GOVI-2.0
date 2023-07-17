@@ -10,29 +10,44 @@ urlAPIBack: http://localhost:8080
 
 numcolonnes:
   bhl:
-    numVoie : 2
-    codeMissionDepart : 13
-    codeMissionArrivee : 3
-    garesTrainArrivee : 8
-    garesTrainDepart : 18
-    heureArrivee : 4
-    heureDepart : 14
+    numVoie : 1
+    codeMissionDepart : 12
+    codeMissionArrivee : 2
+    garesTrainArrivee : 7
+    garesTrainDepart : 17
+    heureArrivee : 3
+    heureDepart : 13
+    nombreColonnes : 33
 
   ratp:
-    codeMission : 11
-    codeADC : 10
-    numeroRame : 1
-    manoeuvre : 15
-    typeEvenement : 2
-    numVoieDepart : 9
-    numVoieArrivee : 8
+    codeMission : 10
+    codeADC : 9
+    numeroRame : 0
+    manoeuvre : 14
+    typeEvenement : 1
+    numVoieDepart : 8
+    numVoieArrivee : 9
+    gareArrivee : 8
+    gareDepart : 5
+    heureArrivee : 2
+    heureDepart : 3
+    manoeuvreVide : "-"
+    manoeuvreGarage : "G"
+    manoeuvreDegarage : "D"
+    manoeuvreRetournement : "R"
+    typeEvenementDepart :
+      - "MSC"
+      - "MSV"
+    typeEvenementArrivee :
+      - "MEC"
+      - "MEV"
 
   pacific:
-    codeMission : 1
-    typeMission: 2
-    heureDebut: 4
-    heureFin: 7
-    codeADC: 9
+    codeMission : 0
+    typeMission: 1
+    heureDebut: 3
+    heureFin: 6
+    codeADC: 8
 
 gares:
   - nom: MITRY
@@ -59,26 +74,28 @@ gares:
       - id: T51
       - id: VM
   - nom: MASSY
-    alias: MPA
+    alias: MP
     quais:
+      - id: V1
       - id: QA
       - id: QB
+      - id: V2
       - id: VZ
       - id: PA
   - nom: ORSAY
-    alias: ORS
+    alias: OV
     quais:
       - id: Q1
       - id: Q2
       - id: QZ
   - nom: StREMY
-    alias: REM
+    alias: SR
     quais:
       - id: Q1
       - id: Q2
       - id: Q3
   - nom: ROBINSON
-    alias: ROB
+    alias: RO
     quais:
       - id: Q1
       - id: Q2
@@ -86,16 +103,35 @@ gares:
   - nom: ROISSY-1
     alias: RSY
     quais:
-      - id:
+      - id: V1BIS
+      - id: V2BIS
+      - id: V1
+      - id: V2
   - nom: AULNAY-SOUS-BOIS
     alias: AB
     quais:
-      - id:
+      - id: 23
+      - id: 21
+      - id: 22
+      - id: 24
   - nom: GARE_DU_NORD(souterraine)
     alias: GDS
     quais:
-      - id:
+      - id: 41
+      - id: 43
+      - id: 44
+      - id: 42
   - nom: GARE_DU_NORD(surface)
     alias: PNB
     quais:
-      - id:
+      - id: 19
+      - id: 20
+      - id: 21
+      - id: 22
+      - id: 30
+      - id: 31
+      - id: 32
+      - id: 33
+      - id: 34
+      - id: 35
+      - id: 36

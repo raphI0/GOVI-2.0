@@ -17,10 +17,20 @@
   position: absolute;
 }
 
+.dragscroll{
+  overflow: auto;
+  cursor: grab;
+}
+.dragscroll:active {
+  cursor: grabbing;
+}
+
 .hours{
   position: absolute;
 }
-
+.encart-gare{
+  border-bottom: 1px solid black;
+}
 .flex-container{
   display: flex;
 }
@@ -42,6 +52,7 @@
   position: sticky;
   width: 300px;
   left:0;
+
   background-color: DodgerBlue;
 }
 
@@ -99,4 +110,8 @@
 }
 .inline{
   display: inline;
+}
+
+.devant{
+  z-index: 1;
 }

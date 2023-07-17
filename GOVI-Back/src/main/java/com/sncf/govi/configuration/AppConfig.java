@@ -18,7 +18,7 @@ public class AppConfig {
      * @return the provider
      */
     @Bean
-    @ConfigurationProperties(prefix = "gares")
+    @ConfigurationProperties
     public GaresProvider garesConfigProvider() {
         return new GaresProvider();
     }

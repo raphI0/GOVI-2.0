@@ -27,6 +27,11 @@ public class Orchestrateur {
     // Objet destiné à contenir tous les fichiers fournit par l'appel d'API du front
     private final FichierLu fichierLu = FichierLu.builder().build();
 
+    /**
+     * Méthode principale de génération de nos retournements et donc de notre GOVI, appelée depuis l'API
+     * @param demandeGOVI est la classe qui contient tous les éléments nécessaires à la génération
+     * @return renvoie au front la liste de nos gares avec nos retournements sur chaque voie de chaque gare
+     */
     public List<Gare> generationGOVI(DemandeGOVI demandeGOVI){
         // Création des gares qui doivent être remplis de nos retournements
         List<Gare> listGares = garesProvider.getGares();
@@ -43,13 +48,15 @@ public class Orchestrateur {
             listGares = createurDonnees.creationRetournementBHL(fichierLu.getBhlj2(), demandeGOVI.getDate(), listGares, TypeFichierEnum.BHLJ2);
         }
 
-        // Création de nos retournements (et affectation quai/gare) via la lecture du fichier RATP
-        /*if(fichierLu.getRatp() != null) {
-            listGares = createurDonnees.creationRetournementRATP(fichierLu.getRatp(),demandeGOVI.getDate(),listGares);
-        }*/
+        if(fichierLu.getRatp() != null) {
+            listGares = createurDonnees.creationRetournementBHL(nettoyeurDonnees.formatRATPVersFormatBHL(fichierLu.getRatp()), demandeGOVI.getDate(), listGares, TypeFichierEnum.RATP);
 
-        // Vider le cache des fichiers enregistrés précédemment fournit par le front /!\
+        }
+
+        // Vider le cache des fichiers enregistrés précédemment fournit par le front, pour pouvoir générer une seconde fois sans mélange de données
         fichierLu.reset();
+
+        listGares = nettoyeurDonnees.retraitGaresEtQuaisVides(listGares);
 
         return(listGares);
     }

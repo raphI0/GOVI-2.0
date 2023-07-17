@@ -24,89 +24,10 @@ public class CreateurDonnees {
 
     private final InfoColonnesBHLProvider infoColonnesBHLProvider;
     private final InfoColonnesPacificProvider infoColonnesPacificProvider;
-    private final InfoColonnesRATPProvider infoColonnesRATPProvider;
 
     private final AffecteurDonnees affecteurDonnees;
 
     private final HashMap<String, ConducteurContainer> conducteursParMission = new HashMap<>();
-
-    public List<Gare> creationRetournementRATP(Workbook tableau, LocalDateTime dateFichier, List<Gare> gares){
-
-        // Accéder à la première feuille
-        Sheet feuille = tableau.getSheetAt(0);
-
-        int cellCount;
-        boolean firstRow = true;
-
-        for (Row row : feuille) {
-
-            // permet de sauter la première ligne avec le nom des colonnes
-            if (firstRow) {
-                firstRow = false;
-                continue;
-            }
-            cellCount = 0;
-            // Crée des retournements et missions vides
-            Retournement retournement = Retournement.builder().build();
-            Mission missionDepart = Mission.builder().couleurEnum(CouleurEnum.BLEU_CANARD).build();
-            Mission missionArrivee = Mission.builder().couleurEnum(CouleurEnum.BLEU_CANARD).build();
-            String quai = "";
-
-            for (Cell cell : row) {
-
-                cellCount++;
-                // Récupéré la valeur de la cellule
-                String cellValue = getStringValue(cell);
-
-                // Récupère le quai
-                if (cellCount == infoColonnesBHLProvider.getNumVoie()) {
-                    quai = cellValue;
-                }
-
-                // Récupère le code mission de départ
-                else if (cellCount == infoColonnesBHLProvider.getCodeMissionDepart()) {
-                    missionDepart.setCodeMission(cellValue);
-                }
-
-                // Récupère le code mission d'arrivée
-                else if (cellCount == infoColonnesBHLProvider.getCodeMissionArrivee()) {
-                    missionArrivee.setCodeMission(cellValue);
-                }
-
-                // Gares train départ sous forme "CLX/RYR" donc on sépare la chaine de caractère en deux avec le séparateur "/"
-                else if (cellCount == infoColonnesBHLProvider.getGaresTrainDepart()) {
-                    assignationGares(missionDepart, cellValue);
-                }
-
-                // Pareil pour les gares de la mission d'arrivée
-                else if (cellCount == infoColonnesBHLProvider.getGaresTrainArrivee()) {
-                    assignationGares(missionArrivee, cellValue);
-                }
-
-                /* Heure d'arrivée : on ajoute à la date indiquée par l'utilisateur
-                   l'heure de la mission de l'Excel
-                   ainsi 01/01/99 0h00 devient 01/01/99 23h00
-                */
-                else if (cellCount == infoColonnesBHLProvider.getHeureArrivee()) {
-                    //Création d'un objet list d'un seul élément primitif, pour pourvoir le passer par référence (et donc que la méthode modifie tout sans return)
-                    missionArrivee.setHeureArrivee(calculeDateEtHeure(dateFichier, false, cellValue));
-                }
-                // Pareil pour l'heure de départ
-                else if (cellCount == infoColonnesBHLProvider.getHeureDepart()) {
-                    // Idem
-                    missionDepart.setHeureDepart(calculeDateEtHeure(dateFichier, false, cellValue));
-                }
-
-            }
-            // On ajoute les missions remplies dans le retournement
-            missionArrivee = affecteurDonnees.affecterConducteurAMission(missionArrivee,conducteursParMission);
-            missionDepart = affecteurDonnees.affecterConducteurAMission(missionDepart,conducteursParMission);
-            gares = affecteurDonnees.affectation(missionArrivee, missionDepart, retournement, gares, quai);
-
-        }
-        return gares;
-
-    }
 
     /**
      * Crée des instances de retournement à partir d'un fichier BHL (SNCF).
@@ -143,7 +64,6 @@ public class CreateurDonnees {
 
             for (Cell cell : row) {
 
-                cellCount++;
                 // Récupéré la valeur de la cellule
                 String cellValue = getStringValue(cell);
 
@@ -154,12 +74,18 @@ public class CreateurDonnees {
 
                 // Récupère le code mission de départ
                 else if (cellCount == infoColonnesBHLProvider.getCodeMissionDepart()) {
-                    missionDepart.setCodeMission(cellValue);
+                    // uniquement si c'est un train de la B
+                    if (isB(cellValue)){missionDepart.setCodeMission(cellValue);}
+                    //Sinon, on passe au retournement suivant
+                    else {break;}
                 }
 
                 // Récupère le code mission d'arrivée
                 else if (cellCount == infoColonnesBHLProvider.getCodeMissionArrivee()) {
-                    missionArrivee.setCodeMission(cellValue);
+                    // uniquement si c'est un train de la B
+                    if(isB(cellValue)){missionArrivee.setCodeMission(cellValue);}
+                    //Sinon, on passe au retournement suivant
+                    else {break;}
                 }
 
                 // Gares train départ sous forme "CLX/RYR" donc on sépare la chaine de caractère en deux avec le séparateur "/"
@@ -178,6 +104,14 @@ public class CreateurDonnees {
                 */
                 else if (cellCount == infoColonnesBHLProvider.getHeureArrivee()) {
                     //Création d'un objet list d'un seul élément primitif, pour pourvoir le passer par référence (et donc que la méthode modifie tout sans return)
+
+                    /* if temporaire le temps que la méthode RATP to BHL produise un contenu opérationnel en toute circonstance,
+                    avec mission arrivee et depart non vide*/
+                    if(cellValue.equals("")){
+                        cellCount++;
+                        continue;
+                    }
+
                     missionArrivee.setHeureArrivee(calculeDateEtHeure(dateFichier, estJ2, cellValue));
                 }
                 // Pareil pour l'heure de départ
@@ -185,7 +119,8 @@ public class CreateurDonnees {
                     // Idem
                     missionDepart.setHeureDepart(calculeDateEtHeure(dateFichier, estJ2, cellValue));
                 }
-
+            // On incrémente en fin de boucle
+            cellCount++;
             }
             // On ajoute les missions remplies dans le retournement
             missionArrivee = affecteurDonnees.affecterConducteurAMission(missionArrivee,conducteursParMission);
@@ -197,6 +132,14 @@ public class CreateurDonnees {
 
     }
 
+    /**
+     * Retourne vrai si le train est de la B (si numérique ni alpha, mais bien alphanumérique)
+     * @param cellValue mission à tester
+     * @return un bool, en fonction de si notre mission est alphanumérique
+     */
+    public boolean isB(String cellValue){
+        return !NettoyeurDonnees.isNumeric(cellValue) && !NettoyeurDonnees.isAlpha(cellValue);
+    }
     /**
      * Méthode qui crée des instances de conducteurs à partir du fichier pacific fournit par l'utilisateur.
      * Ceux-ci sont ensuite stockés dans la hashmap 'conducteursParMission'
@@ -210,7 +153,7 @@ public class CreateurDonnees {
             Conducteur conducteur = Conducteur.builder().build();
             int cellCount = 0;
             for (Cell cell : row) {
-                cellCount++;
+
                 // Récupéré la valeur de la cellule
                 String cellValue = getStringValue(cell);
                 // Récupère le code mission
@@ -223,6 +166,8 @@ public class CreateurDonnees {
                 else if (cellCount == infoColonnesPacificProvider.getTypeMission()) {
                     typeMission = cellValue;
                 }
+            // On incrémente en fin de boucle
+            cellCount++;
             }
 
             ConducteurContainer conducteurContainer = conducteursParMission.get(codeMission);
@@ -302,7 +247,7 @@ public class CreateurDonnees {
      * @param cell est la cellule dont il faut retourner le contenu =
      * @return la valeur de la cellule au format String
      */
-    private String getStringValue(Cell cell) {
+    public static String getStringValue(Cell cell) {
         return switch (cell.getCellType()) {
             case STRING -> cell.getStringCellValue();
             case NUMERIC -> String.valueOf(cell.getNumericCellValue());

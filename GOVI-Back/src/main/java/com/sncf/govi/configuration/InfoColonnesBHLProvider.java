@@ -14,4 +14,6 @@ public class InfoColonnesBHLProvider{
     private int garesTrainDepart;
     private int heureArrivee;
     private int heureDepart;
+
+    private int nombreColonnes;
 }

@@ -8,6 +8,7 @@ import { Conducteur } from '../../model/Conducteur';
 import { MissionSV } from '../../model/MissionSV';
 import { AppelGenerationGoviService } from '../../service/appel-generation-govi.service';
 
+import 'dragscroll';
 @Component({
   selector: 'app-govidisplayer',
   templateUrl: './govidisplayer.component.html',
@@ -21,7 +22,7 @@ export class GOVIDisplayerComponent {
 
   constructor(private appelGenerationGoviService: AppelGenerationGoviService) {
     let conducteur = new Conducteur('10MP', 'CDG', true, false, '#f00020', []);
-    this.retournements[0] = new Retournement('ZOBMYSTERE', [], []);
+    this.retournements[0] = new Retournement('couleur', [], []);
     let mission1 = new Mission(
       'SOSI40',
       'CDG',
@@ -80,16 +81,18 @@ export class GOVIDisplayerComponent {
     quais[2] = new Quai('VB', this.retournements);
     let quaisMitry = [];
     quaisMitry[0] = new Quai('SAS3', this.retournements);
-    quaisMitry[1] = new Quai('VULVAX', this.retournements);
-    quaisMitry[2] = new Quai('DOUBLEPENE', this.retournements);
-    quaisMitry[3] = new Quai('DOUBLEPENE', this.retournements);
+    quaisMitry[1] = new Quai('SAS2', this.retournements);
+    quaisMitry[2] = new Quai('Q2', this.retournements);
+    quaisMitry[3] = new Quai('Q1', this.retournements);
     this.gares[0] = new Gare('MITRY', 'MY', quaisMitry);
     this.gares[1] = new Gare('CDG', 'MY', quais);
     this.gares[2] = new Gare('StREMY', 'MY', quais);
     this.gares[3] = new Gare('StREMY', 'MY', quais);
     this.gares[4] = new Gare('StREMY', 'MY', quais);
     console.log(appelGenerationGoviService.gares);
-    this.gares = appelGenerationGoviService.gares;
+
+    // seule ligne vraiment importante, avant ce sont des tests constants si on ne reçoit rien du back
+    //this.gares = appelGenerationGoviService.gares;
   }
 
   zoom() {
@@ -238,8 +241,10 @@ export class GOVIDisplayerComponent {
     }
   }
 
-  iterateArray(length: number): number[] {
-    return Array.from({ length }, (_, index) => index);
+  iterateArray(start: number, end: number): number[] {
+    let length = end - start < 0 ? end - start + 24 : end - start;
+    let arr = Array.from({ length }, (_, i) => i + start);
+    return arr;
   }
 
   getCouleurConducteurPrincipal(missionArrivee: Mission) {

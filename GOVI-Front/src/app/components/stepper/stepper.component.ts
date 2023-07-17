@@ -90,6 +90,8 @@ export class StepperComponent {
     if (event.target.files.length > 0) {
       let file = event.target.files[0];
       let error = this.updateFileFormControl(file.name, typeFichier);
+      console.log(file.name);
+      console.log(this.BHL1FormControl);
       console.log(error);
       if (!error) {
         const formData = new FormData();
